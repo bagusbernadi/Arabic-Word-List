@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Belajar Surah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--card:#F1F3F4;--line:#DADCE0;--ink:#202124;--mute:#5F6368;--blue:#4285F4;--red:#EA4335;--yel:#FBBC05;--grn:#34A853;--pri:#202124;--pri-ink:#ffffff;--link:#1A73E8;--pyc:#1A73E8;--ok:#188038;--ok-bg:#E6F4EA;--err:#C5221F;--err-bg:#FCE8E6;--mark:#FEEFC3;--hz:"Amiri","Noto Naskh Arabic","Traditional Arabic","Scheherazade New",serif;--font:Calibri,Carlito,"Segoe UI",Arial,sans-serif;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{background:#ffffff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+.hd{max-width:860px;margin:0 auto;padding:28px 20px 16px}
+h1{margin:0;font:700 40px/1.15 var(--font);color:var(--ink)}
+h1 .c0,h1 .c1,h1 .c2,h1 .c3{color:var(--ink)}
+h1::after{content:"";display:block;width:72px;height:6px;border-radius:3px;background:linear-gradient(90deg,#4285F4 25%,#EA4335 0 50%,#FBBC05 0 75%,#34A853 0);margin-top:12px}
+.wrap{max-width:860px;margin:0 auto;padding:8px 20px 48px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+#tc{border:2px solid var(--line);background:#ffffff;padding:4px 16px}
+#tc.on{border-color:var(--blue);color:var(--blue)}
+.tab{font:700 16px var(--font);background:var(--card);color:var(--mute);border:0;border-radius:999px;padding:6px 20px;cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--blue);color:#ffffff}
+button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.bar{position:sticky;top:0;background:#ffffff;padding:14px 0 8px;z-index:2}
+#q{width:100%;font:inherit;padding:11px 16px;border:2px solid var(--line);border-radius:12px;background:#ffffff;color:var(--ink)}
+#q:focus{border-color:var(--blue);outline:none}
+#q::placeholder{color:#80868B}
+#info{color:var(--mute);font-size:15px;margin:8px 2px 0}
+.card{background:var(--card);border-radius:16px;border-left:8px solid var(--blue);padding:16px 20px;margin-top:12px}
+.card.cb{border-left-color:var(--blue)}.card.cr{border-left-color:var(--red)}.card.cy{border-left-color:var(--yel)}.card.cg{border-left-color:var(--grn)}
+.cats{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.cats[hidden]{display:none}
+.ct{font:700 15px var(--font);color:#ffffff;border:3px solid transparent;border-radius:999px;padding:6px 14px;cursor:pointer;background:var(--pri)}
+.ct.b{background:var(--blue)}.ct.r{background:var(--red)}.ct.y{background:var(--yel);color:var(--ink)}.ct.g{background:var(--grn)}
+.ct small{font-weight:400;opacity:.9;margin-left:4px}
+.ct[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px #ffffff inset}
+.row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;background:#ffffff;border-radius:10px;padding:8px 14px}
+.row+.row{margin-top:6px}
+.id{font-size:18px;font-weight:400;color:var(--ink)}
+.hz{font:700 24px/1.3 var(--hz);color:var(--ink)}
+.py{color:var(--pyc);font-weight:700;font-size:16px}
+.meta{color:var(--mute);font-size:15px;margin-top:8px}
+.lb{display:inline-block;font:700 14px/1 var(--font);border-radius:999px;padding:5px 12px;margin-bottom:10px;color:#ffffff}
+.lb.g{background:var(--grn)}
+.lb.b{background:var(--blue)}
+.lb.y{background:var(--yel);color:var(--ink)}
+.lb.r{background:var(--red)}
+button.cp{flex:none;border:0;background:var(--card);color:var(--ink);border-radius:999px;padding:5px 14px;font:700 14px var(--font);cursor:pointer;min-width:76px}
+button.cp:hover{background:var(--line)}
+button.cp.ok{background:var(--ok-bg);color:var(--ok)}
+mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
+.empty{color:var(--mute);text-align:center;padding:40px 12px;font-size:16px}
+.score{display:flex;justify-content:space-between;align-items:center;color:var(--mute);font-size:15px;margin-top:12px}
+.pg{height:6px;background:var(--card);border-radius:999px;margin-top:10px;overflow:hidden}
+#pgf{height:100%;width:0;background:linear-gradient(90deg,#4285F4,#34A853);border-radius:999px;transition:width .3s}
+.ask{color:var(--mute);font-size:15px;font-weight:700}
+.qt{margin:6px 0 0;word-break:break-word}
+.qt.hz{font:700 34px/1.3 var(--hz);color:var(--ink)}
+.qt.py{font:700 22px/1.4 var(--font);color:var(--pyc)}
+.qt.id{font:400 22px/1.4 var(--font);color:var(--ink)}
+.opts{display:grid;gap:8px;margin-top:14px}
+.opt{text-align:left;background:#ffffff;color:var(--ink);border:2px solid transparent;border-radius:10px;padding:10px 14px;font:inherit;cursor:pointer;display:flex;gap:12px;align-items:center}
+.opt:hover:not(:disabled){border-color:var(--blue)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 13px var(--font);background:var(--card);color:var(--mute)}
+.opt .t{word-break:break-word}
+.opt.hz .t{font:700 22px/1.35 var(--hz);color:var(--ink)}
+.opt.py .t{color:var(--pyc);font-weight:700}
+.opt.ok{background:var(--ok-bg);border-color:var(--grn)}
+.opt.ok .t{color:var(--ok)}
+.opt.no{background:var(--err-bg);border-color:var(--red)}
+.opt.no .t{color:var(--err)}
+.opt:disabled{cursor:default}
+.res{margin-top:14px;padding-top:14px;border-top:2px solid var(--line)}
+.res .v{font-weight:700;margin-bottom:6px}
+button.next{margin-top:14px;background:var(--blue);color:#ffffff;border:0;border-radius:999px;padding:9px 22px;font:700 16px var(--font);cursor:pointer}
+button.next:hover{background:#1A73E8}
+button.lnk{background:none;border:0;color:var(--link);cursor:pointer;font:inherit;font-size:15px;font-weight:700}
+@media (max-width:480px){.hd,.wrap{padding-left:16px;padding-right:16px}h1{font-size:32px}.hz{font-size:22px}.qt.hz{font-size:30px}}
+.exs{margin-top:12px;padding-top:12px;border-top:2px dashed var(--line)}
+.exh{font:700 13px var(--font);color:var(--mute);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.ex{padding:8px 14px;margin-top:6px;background:#ffffff;border-radius:10px}
+.ex:last-child{padding-bottom:8px}
+.ex-id{color:var(--ink);font-size:16px}
+.ex-py{color:var(--pyc);font-size:15px;font-weight:700}
+.ex-hz{color:var(--ink);font:700 18px/1.45 var(--hz)}
+.id.tog{cursor:pointer;display:inline-block}
+.id.tog::after{content:" \25BE";color:#80868B;font-size:13px}
+.id.tog.open::after{content:" \25B4"}
+.id.tog:hover{color:var(--link)}
+.exs[hidden]{display:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:15px;color:var(--mute);margin-top:14px}
+.legend b{font-weight:700}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.mode{text-align:left;background:var(--card);color:var(--ink);border:2px solid transparent;border-radius:12px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.mode b{font:700 15px var(--font);color:var(--mute)}
+.mode span{font-size:14px;line-height:1.3}
+.mode[aria-pressed="true"]{background:#E8F0FE;border-color:var(--blue)}
+.mode[aria-pressed="true"] b{color:var(--blue)}
+.opt.ap .t{display:flex;flex-direction:column}
+.opt .oh{font:700 22px/1.35 var(--hz);color:var(--ink)}
+.opt .oy{color:var(--pyc);font-weight:700;font-size:15px}
+.opt.ok .oh,.opt.ok .oy{color:var(--ok)}.opt.no .oh,.opt.no .oy{color:var(--err)}
+.opt.id .t{font-size:17px}
+.ow{display:flex;gap:8px;align-items:stretch}
+.ow .opt{flex:1;min-width:0}
+button.sp.lg{width:46px;height:auto;border-radius:10px;background:#ffffff}
+button.sp.lg.on{background:var(--blue)}
+.opt .oi{margin-left:auto;text-align:right;font-size:14px;line-height:1.3;color:var(--mute);max-width:42%;word-break:break-word}
+.opt.ok .oi{color:var(--ok)}.opt.no .oi{color:var(--err)}
+.wd{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.w{background:#ffffff;border-radius:10px;padding:6px 12px;text-align:center}
+.wh{font:700 28px/1.3 var(--hz);color:var(--ink)}
+.wp{color:var(--pyc);font-weight:700;font-size:15px}
+@media (max-width:560px){.modes{grid-template-columns:1fr}.mode{flex-direction:row;align-items:center;gap:10px}}
+button.sp{flex:none;width:38px;height:34px;border:0;border-radius:999px;background:var(--card);color:var(--blue);cursor:pointer;display:inline-grid;place-items:center;padding:0}
+button.sp.on{background:var(--blue);color:#ffffff}
+.bt{display:flex;gap:6px;align-items:center;flex:none}
+.exr{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.rh{display:flex;gap:10px;align-items:center;justify-content:space-between}
+a.tab{text-decoration:none;display:inline-block}
+.pm{position:fixed;inset:0;z-index:50;background:rgba(32,33,36,.25);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px}
+.pm[hidden]{display:none}
+.pmc{width:100%;max-width:560px;max-height:85vh;display:flex;flex-direction:column;background:rgba(255,255,255,.68);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(255,255,255,.7);border-radius:24px;box-shadow:0 10px 40px rgba(32,33,36,.22);overflow:hidden}
+.pmh{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 10px}
+.pmh h2{font:700 20px var(--font);margin:0;color:var(--ink)}
+.pmh h2:after{content:"";display:block;width:64px;height:4px;margin-top:6px;border-radius:2px;background:linear-gradient(90deg,var(--blue) 25%,var(--red) 25% 50%,var(--yel) 50% 75%,var(--grn) 75%)}
+#pmx{border:0;background:rgba(241,243,244,.8);color:var(--mute);width:36px;height:36px;border-radius:999px;font-size:16px;cursor:pointer}
+.pmb{overflow:auto;padding:0 18px 18px;-webkit-overflow-scrolling:touch}
+.gs{--c:var(--blue)}.gs.r{--c:var(--red)}.gs.y{--c:var(--yel)}.gs.g{--c:var(--grn)}
+.gs h2{display:inline-block;background:var(--c);color:#fff;border-radius:999px;padding:5px 16px;font:700 15px var(--font);margin:0 0 6px}
+.gs.y h2{color:var(--ink)}
+.gi{border-left:6px solid var(--c);background:rgba(241,243,244,.72)!important;border-radius:14px!important}
+.pm button.sp{background:rgba(255,255,255,.85)}.pm button.sp.on{background:var(--blue)}
+#t3{margin-left:auto;padding:6px 12px;display:inline-grid;place-items:center}
+.gs{margin-top:16px}.gs .gd{color:var(--mute);font-size:15px;margin:0 0 8px}
+.gi{display:flex;gap:10px;align-items:center;background:var(--card);border-radius:12px;padding:8px 12px;margin-top:6px}
+.gi .gp{font-weight:700;color:var(--pyc);min-width:76px;font-size:17px}.gi .gh{font:700 24px/1.2 var(--hz);min-width:auto}
+.gi.gn .gp{min-width:76px;max-width:110px;overflow-wrap:anywhere}.gi.gn{padding-top:10px;padding-bottom:10px}
+.gi .gt{flex:1;font-size:15px;line-height:1.35;color:var(--ink)}
+@media (max-width:400px){.tab{font-size:14px;padding:6px 11px}.tabs{gap:4px}#tc{padding:4px 8px!important;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+.ar{font:400 30px/1.9 var(--hz);direction:rtl;text-align:right;color:var(--ink);unicode-bidi:isolate}
+.ar.sm{font-size:26px}
+.tl{color:var(--pyc);font-weight:700;font-size:16px;margin-top:2px}
+.row.ra{align-items:center}
+.row.ra>div:first-child{flex:1;min-width:0}
+.subs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.sub{font:700 14px var(--font);background:var(--card);color:var(--mute);border:2px solid transparent;border-radius:999px;padding:5px 14px;cursor:pointer}
+.sub small{font-weight:400;margin-left:4px}
+.sub[aria-pressed="true"]{background:#E8F0FE;color:var(--blue);border-color:var(--blue)}
+.cek{color:#B06000;font-weight:700}
+.ref{display:inline-block;font:700 13px var(--font);background:#ffffff;border-radius:999px;padding:3px 10px;color:var(--mute);margin-left:6px}
+.sbtn{font:700 14px var(--font);color:#ffffff;border:3px solid transparent;border-radius:999px;padding:5px 12px;cursor:pointer;background:var(--blue)}
+.sbtn.g{background:var(--grn)}
+.sbtn[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px #ffffff inset}
+.sbtn small{font-weight:400;opacity:.9;margin-left:4px}
+.qt.ar{font-size:40px;line-height:1.7;margin:6px 0 0}
+.opt.ap .t{display:flex;flex-direction:column}
+.opt .oa{font:400 28px/1.7 var(--hz);direction:rtl;text-align:right;color:var(--ink)}
+.opt.ar-o .t{width:100%}
+.opt.ok .oa{color:var(--ok)}.opt.no .oa{color:var(--err)}
+.foot{max-width:860px;margin:0 auto;padding:8px 20px 40px;color:var(--mute);font-size:13px;line-height:1.5}
+.foot a{color:var(--link)}
+.gs p{font-size:15px;margin:6px 0}
+.gs ul{margin:6px 0 6px 18px;padding:0;font-size:15px}
+.gs code{background:rgba(241,243,244,.9);border-radius:6px;padding:1px 6px}
+</style>
+<style>
+#xmx{border:0;background:rgba(241,243,244,.8);color:var(--mute);width:36px;height:36px;border-radius:999px;font-size:16px;cursor:pointer}
+.xk{display:block;margin:0 0 6px;color:var(--mute);font-size:15px}
+#quiz{touch-action:pan-y}@keyframes slL{from{opacity:.2;transform:translateX(40px)}to{opacity:1;transform:none}}@keyframes slR{from{opacity:.2;transform:translateX(-40px)}to{opacity:1;transform:none}}#quiz.sl{animation:slL .25s ease-out}#quiz.sr{animation:slR .25s ease-out}
+.acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}.acts .next,.acts button.alt2{margin-top:0}
+button.alt2{background:#ffffff;color:var(--blue);border:0;border-radius:999px;padding:9px 22px;font:700 16px var(--font);cursor:pointer}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;margin-top:14px}
+.days.parts{max-height:176px;overflow:auto;padding:2px}
+.dy{font:700 16px var(--font);color:#ffffff;border:3px solid transparent;border-radius:12px;padding:8px 0;cursor:pointer}
+.dy.b{background:#4285F4}.dy.g{background:#34A853}.dy.p{background:#5F6368}
+.dy[aria-pressed="true"]{border-color:#202124;box-shadow:0 0 0 2px #ffffff inset}
+.dlbl{margin-top:16px;font:700 14px var(--font);color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.dinfo{margin-top:14px;font-size:17px}
+.dinfo small{display:block;color:var(--mute);font-size:15px}
+.dsub{color:var(--mute);margin:8px 0 0;font-size:16px}
+.exg{display:flex;flex-direction:column;gap:6px;background:rgba(241,243,244,.72);border-left:6px solid var(--blue);border-radius:14px;padding:10px 12px;margin-top:8px}
+.exg .tl{font-size:15px}.exg .xi{color:var(--ink);font-size:15px}
+</style>
+</head>
+<body>
+<header class="hd"><h1>Belajar Surah</h1><p class="dsub">Latihan per surah: Indonesia → Arab &amp; transliterasi. Tiap sesi hanya menguji kata baru di surah dan bagian itu (maksimal 20 kata).</p></header>
+<div class="wrap">
+<div class="tabs"><a class="tab" href="index.html">Kamus</a><a class="tab" href="index.html#latihan">Latihan</a><a class="tab" aria-selected="true" aria-current="page" href="deck.html">Belajar Surah</a><button class="tab" type="button" id="t3" aria-haspopup="dialog" aria-expanded="false" aria-label="Panduan dan sumber data" title="Panduan dan sumber data"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></button></div>
+<div class="dlbl">Surah</div>
+<div class="days" id="days" role="group" aria-label="Pilih surah"></div>
+<div class="dlbl" id="plbl" hidden>Bagian</div>
+<div class="days parts" id="parts" role="group" aria-label="Pilih bagian" hidden></div>
+<div class="dinfo" id="dinfo"></div>
+<div class="score"><span id="sc"></span><button class="lnk" id="rs" type="button">Ulangi bagian ini</button></div>
+<div class="pg"><div id="pgf"></div></div>
+<div class="card" id="quiz">Memuat soal…</div>
+</div>
+<div class="pm" id="pm" role="dialog" aria-modal="true" aria-labelledby="pmt" hidden>
+<div class="pmc"><div class="pmh"><h2 id="pmt">Panduan dan sumber data</h2><button type="button" id="pmx" aria-label="Tutup">✕</button></div><div class="pmb" id="pmb"></div></div>
+</div>
+<div class="pm" id="xm" role="dialog" aria-modal="true" aria-labelledby="xmt" hidden>
+<div class="pmc"><div class="pmh"><h2 id="xmt">Contoh ayat</h2><button type="button" id="xmx" aria-label="Tutup">✕</button></div><div class="pmb" id="xmb"></div></div>
+</div>
+<script>
+(function(){
+var SURAH=[{"n": 1, "name": "Al-Fatihah", "arti": "Pembukaan", "type": "Mekkah", "ayat_mushaf": 7, "kata": 26, "ayat": 7, "klausa": 7}, {"n": 2, "name": "Al-Baqarah", "arti": "Sapi Betina", "type": "Madinah", "ayat_mushaf": 286, "kata": 2627, "ayat": 284, "klausa": 725}, {"n": 3, "name": "Ali 'Imran", "arti": "Keluarga 'Imran", "type": "Madinah", "ayat_mushaf": 200, "kata": 1028, "ayat": 199, "klausa": 364}, {"n": 4, "name": "An-Nisa'", "arti": "Wanita", "type": "Madinah", "ayat_mushaf": 176, "kata": 1018, "ayat": 176, "klausa": 405}, {"n": 5, "name": "Al-Ma'idah", "arti": "Jamuan (hidangan makanan)", "type": "Madinah", "ayat_mushaf": 120, "kata": 665, "ayat": 119, "klausa": 290}, {"n": 6, "name": "Al-An'am", "arti": "Binatang Ternak", "type": "Mekkah", "ayat_mushaf": 165, "kata": 830, "ayat": 165, "klausa": 383}, {"n": 7, "name": "Al-A'raf", "arti": "Tempat yang tertinggi", "type": "Mekkah", "ayat_mushaf": 206, "kata": 868, "ayat": 205, "klausa": 393}, {"n": 8, "name": "Al-Anfal", "arti": "Harta rampasan perang", "type": "Madinah", "ayat_mushaf": 75, "kata": 270, "ayat": 74, "klausa": 130}, {"n": 9, "name": "At-Taubah", "arti": "Pengampunan", "type": "Madinah", "ayat_mushaf": 129, "kata": 609, "ayat": 129, "klausa": 255}, {"n": 10, "name": "Yunus", "arti": "Nabi Yunus", "type": "Mekkah", "ayat_mushaf": 109, "kata": 339, "ayat": 109, "klausa": 211}, {"n": 11, "name": "Hud", "arti": "Nabi Hud", "type": "Mekkah", "ayat_mushaf": 123, "kata": 423, "ayat": 123, "klausa": 236}, {"n": 12, "name": "Yusuf", "arti": "Nabi Yusuf", "type": "Mekkah", "ayat_mushaf": 111, "kata": 512, "ayat": 111, "klausa": 206}, {"n": 13, "name": "Ar-Ra'd", "arti": "Guruh (petir)", "type": "Mekkah", "ayat_mushaf": 43, "kata": 191, "ayat": 43, "klausa": 109}, {"n": 14, "name": "Ibrahim", "arti": "Nabi Ibrahim", "type": "Mekkah", "ayat_mushaf": 52, "kata": 190, "ayat": 52, "klausa": 101}, {"n": 15, "name": "Al-Hijr", "arti": "Al Hijr (nama gunung)", "type": "Mekkah", "ayat_mushaf": 99, "kata": 171, "ayat": 99, "klausa": 104}, {"n": 16, "name": "An-Nahl", "arti": "Lebah", "type": "Mekkah", "ayat_mushaf": 128, "kata": 336, "ayat": 128, "klausa": 224}, {"n": 17, "name": "Al-Isra'", "arti": "Memperjalankan di waktu malam", "type": "Mekkah", "ayat_mushaf": 111, "kata": 399, "ayat": 111, "klausa": 183}, {"n": 18, "name": "Al-Kahf", "arti": "Penghuni-penghuni gua", "type": "Mekkah", "ayat_mushaf": 110, "kata": 467, "ayat": 109, "klausa": 176}, {"n": 19, "name": "Maryam", "arti": "Maryam (Maria)", "type": "Mekkah", "ayat_mushaf": 98, "kata": 267, "ayat": 98, "klausa": 130}, {"n": 20, "name": "Ta Ha", "arti": "Ta Ha", "type": "Mekkah", "ayat_mushaf": 135, "kata": 371, "ayat": 135, "klausa": 186}, {"n": 21, "name": "Al-Anbiya", "arti": "Nabi-Nabi", "type": "Mekkah", "ayat_mushaf": 112, "kata": 250, "ayat": 110, "klausa": 160}, {"n": 22, "name": "Al-Hajj", "arti": "Haji", "type": "Madinah & Makkah", "ayat_mushaf": 78, "kata": 251, "ayat": 78, "klausa": 142}, {"n": 23, "name": "Al-Mu'minun", "arti": "Orang-orang mukmin", "type": "Mekkah", "ayat_mushaf": 118, "kata": 185, "ayat": 117, "klausa": 140}, {"n": 24, "name": "An-Nur", "arti": "Cahaya", "type": "Madinah", "ayat_mushaf": 64, "kata": 292, "ayat": 63, "klausa": 131}, {"n": 25, "name": "Al-Furqan", "arti": "Pembeda", "type": "Mekkah", "ayat_mushaf": 77, "kata": 166, "ayat": 76, "klausa": 106}, {"n": 26, "name": "Asy-Syu'ara'", "arti": "Penyair", "type": "Mekkah", "ayat_mushaf": 227, "kata": 226, "ayat": 195, "klausa": 205}, {"n": 27, "name": "An-Naml", "arti": "Semut", "type": "Mekkah", "ayat_mushaf": 93, "kata": 214, "ayat": 91, "klausa": 128}, {"n": 28, "name": "Al-Qasas", "arti": "Cerita", "type": "Mekkah", "ayat_mushaf": 88, "kata": 247, "ayat": 85, "klausa": 150}, {"n": 29, "name": "Al-'Ankabut", "arti": "Laba-laba", "type": "Mekkah", "ayat_mushaf": 69, "kata": 126, "ayat": 67, "klausa": 114}, {"n": 30, "name": "Ar-Rum", "arti": "Bangsa Romawi", "type": "Mekkah", "ayat_mushaf": 60, "kata": 98, "ayat": 59, "klausa": 91}, {"n": 31, "name": "Luqman", "arti": "Keluarga Luqman", "type": "Mekkah", "ayat_mushaf": 34, "kata": 81, "ayat": 31, "klausa": 53}, {"n": 32, "name": "As-Sajdah", "arti": "Sajdah", "type": "Mekkah", "ayat_mushaf": 30, "kata": 42, "ayat": 29, "klausa": 42}, {"n": 33, "name": "Al-Ahzab", "arti": "Golongan-Golongan yang bersekutu", "type": "Madinah", "ayat_mushaf": 73, "kata": 278, "ayat": 73, "klausa": 133}, {"n": 34, "name": "Saba'", "arti": "Kaum Saba'", "type": "Mekkah", "ayat_mushaf": 54, "kata": 140, "ayat": 53, "klausa": 98}, {"n": 35, "name": "Fatir", "arti": "Pencipta", "type": "Mekkah", "ayat_mushaf": 45, "kata": 109, "ayat": 44, "klausa": 94}, {"n": 36, "name": "Ya Sin", "arti": "Yaasiin", "type": "Mekkah", "ayat_mushaf": 83, "kata": 118, "ayat": 81, "klausa": 97}, {"n": 37, "name": "As-Saffat", "arti": "Barisan-barisan", "type": "Mekkah", "ayat_mushaf": 182, "kata": 197, "ayat": 169, "klausa": 175}, {"n": 38, "name": "Sad", "arti": "Shaad", "type": "Mekkah", "ayat_mushaf": 88, "kata": 162, "ayat": 81, "klausa": 112}, {"n": 39, "name": "Az-Zumar", "arti": "Rombongan-rombongan", "type": "Mekkah", "ayat_mushaf": 75, "kata": 143, "ayat": 74, "klausa": 126}, {"n": 40, "name": "Al-Mu'min", "arti": "Orang yg Beriman", "type": "Mekkah", "ayat_mushaf": 85, "kata": 160, "ayat": 84, "klausa": 133}, {"n": 41, "name": "Fussilat", "arti": "Yang dijelaskan", "type": "Mekkah", "ayat_mushaf": 54, "kata": 118, "ayat": 53, "klausa": 86}, {"n": 42, "name": "Asy-Syura", "arti": "Musyawarah", "type": "Mekkah", "ayat_mushaf": 53, "kata": 98, "ayat": 52, "klausa": 112}, {"n": 43, "name": "Az-Zukhruf", "arti": "Perhiasan", "type": "Mekkah", "ayat_mushaf": 89, "kata": 130, "ayat": 88, "klausa": 111}, {"n": 44, "name": "Ad-Dukhan", "arti": "Kabut", "type": "Mekkah", "ayat_mushaf": 59, "kata": 59, "ayat": 56, "klausa": 68}, {"n": 45, "name": "Al-Jasiyah", "arti": "Yang bertekuk lutut", "type": "Mekkah", "ayat_mushaf": 37, "kata": 43, "ayat": 35, "klausa": 47}, {"n": 46, "name": "Al-Ahqaf", "arti": "Bukit-bukit pasir", "type": "Mekkah", "ayat_mushaf": 35, "kata": 76, "ayat": 33, "klausa": 54}, {"n": 47, "name": "Muhammad", "arti": "Muhammad", "type": "Madinah", "ayat_mushaf": 38, "kata": 107, "ayat": 38, "klausa": 61}, {"n": 48, "name": "Al-Fath", "arti": "Kemenangan", "type": "Madinah", "ayat_mushaf": 29, "kata": 100, "ayat": 29, "klausa": 54}, {"n": 49, "name": "Al-Hujurat", "arti": "Kamar-kamar", "type": "Madinah", "ayat_mushaf": 18, "kata": 70, "ayat": 18, "klausa": 36}, {"n": 50, "name": "Qaf", "arti": "Qaaf", "type": "Mekkah", "ayat_mushaf": 45, "kata": 75, "ayat": 45, "klausa": 60}, {"n": 51, "name": "Az-Zariyat", "arti": "Angin yang menerbangkan", "type": "Mekkah", "ayat_mushaf": 60, "kata": 65, "ayat": 57, "klausa": 63}, {"n": 52, "name": "At-Tur", "arti": "Bukit", "type": "Mekkah", "ayat_mushaf": 49, "kata": 66, "ayat": 48, "klausa": 59}, {"n": 53, "name": "An-Najm", "arti": "Bintang", "type": "Mekkah", "ayat_mushaf": 62, "kata": 83, "ayat": 62, "klausa": 71}, {"n": 54, "name": "Al-Qamar", "arti": "Bulan", "type": "Mekkah", "ayat_mushaf": 55, "kata": 96, "ayat": 50, "klausa": 57}, {"n": 55, "name": "Ar-Rahman", "arti": "Yang Maha Pemurah", "type": "Madinah & Mekkah", "ayat_mushaf": 78, "kata": 86, "ayat": 48, "klausa": 51}, {"n": 56, "name": "Al-Waqi'ah", "arti": "Hari Kiamat", "type": "Mekkah", "ayat_mushaf": 96, "kata": 122, "ayat": 92, "klausa": 92}, {"n": 57, "name": "Al-Hadid", "arti": "Besi", "type": "Madinah", "ayat_mushaf": 29, "kata": 72, "ayat": 29, "klausa": 50}, {"n": 58, "name": "Al-Mujadilah", "arti": "Wanita yang mengajukan gugatan", "type": "Madinah", "ayat_mushaf": 22, "kata": 62, "ayat": 22, "klausa": 49}, {"n": 59, "name": "Al-Hasyr", "arti": "Pengusiran", "type": "Madinah", "ayat_mushaf": 24, "kata": 70, "ayat": 24, "klausa": 40}, {"n": 60, "name": "Al-Mumtahanah", "arti": "Wanita yang diuji", "type": "Madinah", "ayat_mushaf": 13, "kata": 61, "ayat": 13, "klausa": 29}, {"n": 61, "name": "As-Saff", "arti": "Satu barisan", "type": "Madinah", "ayat_mushaf": 14, "kata": 25, "ayat": 12, "klausa": 18}, {"n": 62, "name": "Al-Jumu'ah", "arti": "Hari Jum'at", "type": "Madinah", "ayat_mushaf": 11, "kata": 17, "ayat": 11, "klausa": 14}, {"n": 63, "name": "Al-Munafiqun", "arti": "Orang-orang yang munafik", "type": "Madinah", "ayat_mushaf": 11, "kata": 29, "ayat": 11, "klausa": 20}, {"n": 64, "name": "At-Tagabun", "arti": "Hari dinampakkan kesalahan-kesalahan", "type": "Madinah", "ayat_mushaf": 18, "kata": 23, "ayat": 18, "klausa": 29}, {"n": 65, "name": "At-Talaq", "arti": "Talak", "type": "Madinah", "ayat_mushaf": 12, "kata": 53, "ayat": 12, "klausa": 34}, {"n": 66, "name": "At-Tahrim", "arti": "Mengharamkan", "type": "Madinah", "ayat_mushaf": 12, "kata": 57, "ayat": 11, "klausa": 20}, {"n": 67, "name": "Al-Mulk", "arti": "Kerajaan", "type": "Mekkah", "ayat_mushaf": 30, "kata": 49, "ayat": 29, "klausa": 41}, {"n": 68, "name": "Al-Qalam", "arti": "Pena", "type": "Mekkah", "ayat_mushaf": 52, "kata": 64, "ayat": 47, "klausa": 51}, {"n": 69, "name": "Al-Haqqah", "arti": "Hari kiamat", "type": "Mekkah", "ayat_mushaf": 52, "kata": 89, "ayat": 50, "klausa": 52}, {"n": 70, "name": "Al-Ma'arij", "arti": "Tempat naik", "type": "Mekkah", "ayat_mushaf": 44, "kata": 45, "ayat": 39, "klausa": 40}, {"n": 71, "name": "Nuh", "arti": "Nuh", "type": "Mekkah", "ayat_mushaf": 28, "kata": 52, "ayat": 28, "klausa": 31}, {"n": 72, "name": "Al-Jinn", "arti": "Jin", "type": "Mekkah", "ayat_mushaf": 28, "kata": 65, "ayat": 28, "klausa": 35}, {"n": 73, "name": "Al-Muzzammil", "arti": "Orang yang berselimut", "type": "Mekkah", "ayat_mushaf": 20, "kata": 46, "ayat": 20, "klausa": 32}, {"n": 74, "name": "Al-Muddassir", "arti": "Orang yang berkemul", "type": "Mekkah", "ayat_mushaf": 56, "kata": 75, "ayat": 56, "klausa": 63}, {"n": 75, "name": "Al-Qiyamah", "arti": "Hari Kiamat", "type": "Mekkah", "ayat_mushaf": 40, "kata": 49, "ayat": 40, "klausa": 41}, {"n": 76, "name": "Al-Insan", "arti": "Manusia", "type": "Madinah", "ayat_mushaf": 31, "kata": 68, "ayat": 30, "klausa": 34}, {"n": 77, "name": "Al-Mursalat", "arti": "Malaikat-Malaikat Yang Diutus", "type": "Mekkah", "ayat_mushaf": 50, "kata": 48, "ayat": 39, "klausa": 39}, {"n": 78, "name": "An-Naba'", "arti": "Berita besar", "type": "Mekkah", "ayat_mushaf": 40, "kata": 42, "ayat": 40, "klausa": 43}, {"n": 79, "name": "An-Nazi'at", "arti": "Malaikat-Malaikat Yang Mencabut", "type": "Mekkah", "ayat_mushaf": 46, "kata": 49, "ayat": 45, "klausa": 45}, {"n": 80, "name": "'Abasa", "arti": "Ia Bermuka masam", "type": "Mekkah", "ayat_mushaf": 42, "kata": 50, "ayat": 41, "klausa": 41}, {"n": 81, "name": "At-Takwir", "arti": "Menggulung", "type": "Mekkah", "ayat_mushaf": 29, "kata": 32, "ayat": 27, "klausa": 27}, {"n": 82, "name": "Al-Infitar", "arti": "Terbelah", "type": "Mekkah", "ayat_mushaf": 19, "kata": 19, "ayat": 19, "klausa": 20}, {"n": 83, "name": "Al-Tatfif", "arti": "Orang-orang yang curang", "type": "Mekkah", "ayat_mushaf": 36, "kata": 34, "ayat": 31, "klausa": 33}, {"n": 84, "name": "Al-Insyiqaq", "arti": "Terbelah", "type": "Mekkah", "ayat_mushaf": 25, "kata": 22, "ayat": 24, "klausa": 24}, {"n": 85, "name": "Al-Buruj", "arti": "Gugusan bintang", "type": "Mekkah", "ayat_mushaf": 22, "kata": 18, "ayat": 22, "klausa": 23}, {"n": 86, "name": "At-Tariq", "arti": "Yang datang di malam hari", "type": "Mekkah", "ayat_mushaf": 17, "kata": 24, "ayat": 17, "klausa": 17}, {"n": 87, "name": "Al-A'la", "arti": "Yang paling tinggi", "type": "Mekkah", "ayat_mushaf": 19, "kata": 16, "ayat": 19, "klausa": 20}, {"n": 88, "name": "Al-Gasyiyah", "arti": "Hari Pembalasan", "type": "Mekkah", "ayat_mushaf": 26, "kata": 34, "ayat": 25, "klausa": 25}, {"n": 89, "name": "Al-Fajr", "arti": "Fajar", "type": "Mekkah", "ayat_mushaf": 30, "kata": 48, "ayat": 30, "klausa": 31}, {"n": 90, "name": "Al-Balad", "arti": "Negeri", "type": "Mekkah", "ayat_mushaf": 20, "kata": 24, "ayat": 20, "klausa": 20}, {"n": 91, "name": "Asy-Syamsa", "arti": "Matahari", "type": "Mekkah", "ayat_mushaf": 15, "kata": 20, "ayat": 15, "klausa": 15}, {"n": 92, "name": "Al-Lail", "arti": "Malam", "type": "Mekkah", "ayat_mushaf": 21, "kata": 15, "ayat": 21, "klausa": 21}, {"n": 93, "name": "Ad-Duha", "arti": "Waktu matahari sepenggalahan naik (Dhuha)", "type": "Mekkah", "ayat_mushaf": 11, "kata": 16, "ayat": 11, "klausa": 11}, {"n": 94, "name": "Al-Insyirah", "arti": "Melapangkan", "type": "Mekkah", "ayat_mushaf": 8, "kata": 11, "ayat": 8, "klausa": 8}, {"n": 95, "name": "At-Tin", "arti": "Buah Tin", "type": "Mekkah", "ayat_mushaf": 8, "kata": 11, "ayat": 8, "klausa": 8}, {"n": 96, "name": "Al-'Alaq", "arti": "Segumpal Darah", "type": "Mekkah", "ayat_mushaf": 19, "kata": 21, "ayat": 19, "klausa": 19}, {"n": 97, "name": "Al-Qadr", "arti": "Kemuliaan", "type": "Mekkah", "ayat_mushaf": 5, "kata": 6, "ayat": 5, "klausa": 5}, {"n": 98, "name": "Al-Bayyinah", "arti": "Pembuktian", "type": "Madinah", "ayat_mushaf": 8, "kata": 12, "ayat": 8, "klausa": 11}, {"n": 99, "name": "Az-Zalzalah", "arti": "Kegoncangan", "type": "Mekkah", "ayat_mushaf": 8, "kata": 8, "ayat": 8, "klausa": 8}, {"n": 100, "name": "Al-'Adiyat", "arti": "Berlari kencang", "type": "Mekkah", "ayat_mushaf": 11, "kata": 15, "ayat": 11, "klausa": 11}, {"n": 101, "name": "Al-Qari'ah", "arti": "Hari Kiamat", "type": "Mekkah", "ayat_mushaf": 11, "kata": 8, "ayat": 10, "klausa": 10}, {"n": 102, "name": "At-Takasur", "arti": "Bermegah-megahan", "type": "Mekkah", "ayat_mushaf": 8, "kata": 6, "ayat": 8, "klausa": 8}, {"n": 103, "name": "Al-'Asr", "arti": "Masa/Waktu", "type": "Mekkah", "ayat_mushaf": 3, "kata": 2, "ayat": 3, "klausa": 3}, {"n": 104, "name": "Al-Humazah", "arti": "Pengumpat", "type": "Mekkah", "ayat_mushaf": 9, "kata": 12, "ayat": 9, "klausa": 9}, {"n": 105, "name": "Al-Fil", "arti": "Gajah", "type": "Mekkah", "ayat_mushaf": 5, "kata": 10, "ayat": 5, "klausa": 5}, {"n": 106, "name": "Quraisy", "arti": "Suku Quraisy", "type": "Mekkah", "ayat_mushaf": 4, "kata": 9, "ayat": 4, "klausa": 4}, {"n": 107, "name": "Al-Ma'un", "arti": "Barang-barang yang berguna", "type": "Mekkah", "ayat_mushaf": 7, "kata": 4, "ayat": 6, "klausa": 6}, {"n": 108, "name": "Al-Kausar", "arti": "Nikmat yang berlimpah", "type": "Mekkah", "ayat_mushaf": 3, "kata": 7, "ayat": 3, "klausa": 3}, {"n": 109, "name": "Al-Kafirun", "arti": "Orang-orang kafir", "type": "Mekkah", "ayat_mushaf": 6, "kata": 3, "ayat": 5, "klausa": 5}, {"n": 110, "name": "An-Nasr", "arti": "Pertolongan", "type": "Madinah", "ayat_mushaf": 3, "kata": 3, "ayat": 3, "klausa": 4}, {"n": 111, "name": "Al-Lahab", "arti": "Gejolak Api/ Sabut", "type": "Mekkah", "ayat_mushaf": 5, "kata": 10, "ayat": 5, "klausa": 5}, {"n": 112, "name": "Al-Ikhlas", "arti": "Ikhlas", "type": "Mekkah", "ayat_mushaf": 4, "kata": 4, "ayat": 4, "klausa": 4}, {"n": 113, "name": "Al-Falaq", "arti": "Waktu Subuh", "type": "Mekkah", "ayat_mushaf": 5, "kata": 8, "ayat": 5, "klausa": 5}, {"n": 114, "name": "An-Nas", "arti": "Manusia", "type": "Mekkah", "ayat_mushaf": 6, "kata": 4, "ayat": 6, "klausa": 6}];
+var PART=20;
+function $(i){return document.getElementById(i)}
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function norm(s){
+  return String(s==null?"":s).normalize("NFD")
+    .replace(/[ً-ٰٟۖ-ۭـ]/g,"").replace(/[̀-ͯ]/g,"")
+    .replace(/[آأإٱ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه")
+    .replace(/[ʿʼ'’`\-]/g,"").toLowerCase();
+}
+function toast(m){var t=$("toast");if(!t){t=document.createElement("div");t.id="toast";t.setAttribute("role","status");t.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#202124;color:#fff;padding:10px 16px;border-radius:12px;font:700 14px Calibri,Arial,sans-serif;z-index:99;max-width:90%;text-align:center";document.body.appendChild(t)}t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(function(){t.style.display="none"},4000)}
+function fetchJson(name){return fetch(name+".json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(j){return j.rows})}
+/* suara (Web Speech API, ar-SA) */
+var SYN=window.speechSynthesis;
+function speak(text,btn){
+  if(!SYN){toast("Browser ini tidak mendukung suara");return}
+  Array.prototype.forEach.call(document.querySelectorAll(".sp.on"),function(x){x.classList.remove("on")});
+  try{SYN.cancel()}catch(x){}
+  var u=new SpeechSynthesisUtterance(text);u.lang="ar-SA";u.rate=.8;
+  var vs=[];try{vs=(SYN.getVoices()||[]).filter(function(v){return /^ar/i.test(v.lang)})}catch(x){}
+  if(vs.length)u.voice=vs[0];
+  u.onstart=function(){if(btn)btn.classList.add("on")};
+  u.onend=function(){if(btn)btn.classList.remove("on")};
+  u.onerror=function(e){if(btn)btn.classList.remove("on");if(e&&e.error!=="canceled"&&e.error!=="interrupted")toast("Suara Arab tidak tersedia di perangkat ini")};
+  try{SYN.resume()}catch(x){}
+  SYN.speak(u);
+}
+function spBtn(text){
+  if(!SYN)return null;
+  var b=el("button","sp");b.type="button";b.setAttribute("aria-label","Dengarkan");
+  b.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+  b.onclick=function(e){e.stopPropagation();speak(text,b)};
+  return b;
+}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function same(a,b){return norm(a).replace(/\s+/g,"")===norm(b).replace(/\s+/g,"")}
+function letters(s){var o={};norm(s).replace(/[ء-ي]/g,function(c){o[c]=1});return o}
+function jac(a,b){var i=0,u=0,k;for(k in a){u++;if(b[k])i++}for(k in b)if(!a[k])u++;return u?i/u:0}
+function wtoks(s){var o={};norm(s).split(/[^a-z0-9]+/).forEach(function(w){if(w.length>2)o[w]=1});return o}
+function sim(q,d){
+  var s=jac(letters(q.a),letters(d.a))*5+jac(wtoks(q.i),wtoks(d.i))*3+Math.max(0,1-Math.abs(q.a.length-d.a.length)/8);
+  return s+Math.random()*.8;
+}
+function sname(s){var o=SURAH[s-1];return o?o.n+". "+o.name:String(s)}
+function scol(s){var o=SURAH[s-1];return o&&/madin/i.test(o.type)?"g":"b"}
+
+var ALL=[],BY={},cur={s:1,p:1},deck=[],rec=[],st={ok:0,all:0},total=0,vi=0,POOLS=[];
+function partsOf(s){
+  var L=BY[s]||[],k=Math.max(1,Math.ceil(L.length/PART)),sz=Math.ceil(L.length/k),out=[];
+  for(var i=0;i<k;i++){var c=L.slice(i*sz,(i+1)*sz);if(c.length)out.push(c)}
+  return out;
+}
+/* pilihan jawaban: dari bagian yang sama; bila kurang dari 4, dilengkapi kata mirip dari surah lain */
+function pickOpts(q,pool){
+  var seen=[q],opts=[q];
+  function ok(c){return c!==q&&!seen.some(function(s){return same(s.i,c.i)||norm(s.a)===norm(c.a)||s.t===c.t})}
+  var base=pool.filter(ok).map(function(d){return[sim(q,d),d]}).sort(function(a,b){return b[0]-a[0]}).map(function(x){return x[1]});
+  for(var i=0;i<base.length&&opts.length<4;i++){if(ok(base[i])){opts.push(base[i]);seen.push(base[i])}}
+  if(opts.length<4){
+    var extra=shuf(ALL).slice(0,1500).filter(ok).map(function(d){return[sim(q,d),d]}).sort(function(a,b){return b[0]-a[0]}).map(function(x){return x[1]});
+    for(var j=0;j<extra.length&&opts.length<4;j++){if(ok(extra[j])){opts.push(extra[j]);seen.push(extra[j])}}
+  }
+  return shuf(opts);
+}
+function score(n){$("sc").textContent=(n>total?"Selesai":"Soal "+n+" dari "+total)+" · Benar "+st.ok;$("pgf").style.width=Math.min(st.all,total)/total*100+"%"}
+function save(){try{localStorage.setItem("awl-deck",JSON.stringify(cur))}catch(x){}}
+function markBtns(){
+  Array.prototype.forEach.call($("days").children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.n===cur.s))});
+  Array.prototype.forEach.call($("parts").children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.n===cur.p))});
+}
+function buildParts(){
+  var P=$("parts");P.textContent="";POOLS=partsOf(cur.s);
+  var show=POOLS.length>1;$("parts").hidden=!show;$("plbl").hidden=!show;
+  POOLS.forEach(function(c,i){
+    var b=el("button","dy p",String(i+1));b.type="button";b.dataset.n=i+1;b.setAttribute("aria-label","Bagian "+(i+1)+" ("+c.length+" kata)");b.setAttribute("aria-pressed","false");
+    b.onclick=function(){start(cur.s,i+1)};P.appendChild(b);
+  });
+}
+function start(s,p,keepParts){
+  var changed=s!==cur.s||!POOLS.length;
+  cur={s:s,p:p||1};if(changed&&!keepParts)buildParts();
+  if(cur.p>POOLS.length)cur.p=1;
+  var pool=POOLS[cur.p-1]||[];deck=shuf(pool);rec=[];total=pool.length;st={ok:0,all:0};
+  markBtns();save();
+  var o=SURAH[s-1],di=$("dinfo");di.textContent="";
+  di.appendChild(el("b",null,sname(s)+(POOLS.length>1?" · bagian "+cur.p+" dari "+POOLS.length:"")));
+  di.appendChild(el("small",null,(o?o.arti+" · "+o.type+" · ":"")+total+" kata dalam bagian ini · "+(BY[s]||[]).length+" kata baru di surah ini"));
+  if(!total){var bx=$("quiz");bx.textContent="";bx._pick=null;bx.appendChild(el("div","empty","Surah ini tidak punya kata baru. Semua katanya sudah muncul di surah sebelumnya."));$("sc").textContent="";$("pgf").style.width="0";return}
+  show(0);
+}
+function nextTarget(){
+  if(cur.p<POOLS.length)return{label:"Bagian "+(cur.p+1)+" →",go:function(){start(cur.s,cur.p+1,true)}};
+  for(var s=cur.s+1;s<=114;s++){if((BY[s]||[]).length){return{label:"Surah "+s+" →",go:function(){start(s,1)}}}}
+  return null;
+}
+function summary(){
+  var box=$("quiz");box.textContent="";box._pick=null;score(total+1);
+  box.appendChild(el("div","ask",sname(cur.s)+(POOLS.length>1?" · bagian "+cur.p:"")+" selesai"));
+  box.appendChild(el("p","qt id","Benar "+st.ok+" dari "+total+" ("+Math.round(st.ok/total*100)+"%)"));
+  var w=el("div","acts"),a=el("button","next","Ulangi bagian ini");a.type="button";a.onclick=function(){start(cur.s,cur.p,true)};w.appendChild(a);
+  var nt=nextTarget();if(nt){var b=el("button","alt2",nt.label);b.type="button";b.onclick=function(){nt.go();window.scrollTo(0,0)};w.appendChild(b)}
+  box.appendChild(w);a.focus();
+}
+function ask(){show(st.all)}
+function slide(dir){
+  if(!dir)return;var b=$("quiz");b.classList.remove("sl","sr");void b.offsetWidth;b.classList.add(dir>0?"sl":"sr");
+  setTimeout(function(){b.classList.remove("sl","sr")},300);
+}
+function show(idx,dir){
+  vi=idx;slide(dir);
+  if(idx>=total){summary();return}
+  score(idx+1);
+  var q=deck[idx],pool=POOLS[cur.p-1],box=$("quiz");box.textContent="";
+  var r=rec[idx]||(rec[idx]={opts:pickOpts(q,pool),pick:null}),opts=r.opts;
+  box.appendChild(el("div","ask","Pilih bacaan Arab dan transliterasi yang tepat untuk:"));
+  box.appendChild(el("p","qt id",q.i));
+  var wrap=el("div","opts"),btns=[],res=el("div","res");
+  opts.forEach(function(o,i){
+    var b=el("button","opt ap ar-o");b.type="button";b.appendChild(el("span","k",String(i+1)));
+    var t=el("span","t");t.appendChild(el("span","oa",o.a));t.appendChild(el("span","oy tl",o.t));b.appendChild(t);
+    b.onclick=function(){pick(i)};btns.push(b);
+    var ow=el("div","ow");ow.appendChild(b);var ob=spBtn(o.a);if(ob){ob.classList.add("lg");ow.appendChild(ob)}wrap.appendChild(ow);
+  });
+  function reveal(i){
+    var good=opts[i]===q;
+    btns.forEach(function(b,k){b.disabled=true;if(opts[k]===q)b.classList.add("ok");else if(k===i)b.classList.add("no");b.appendChild(el("span","oi",opts[k].i))});
+    res.appendChild(el("div","v",good?"Benar.":"Belum tepat."));
+    var rh=el("div","rh");rh.appendChild(el("div","ar sm",q.a));var rb=spBtn(q.a);if(rb)rh.appendChild(rb);res.appendChild(rh);
+    res.appendChild(el("div","tl",q.t));res.appendChild(el("div","id",q.i));
+    res.appendChild(el("div","meta","Muncul "+q.f+"× di Al-Quran · pertama di "+q.r));
+    if(q.x)res.appendChild(el("div","meta","Arti lain: "+q.x));
+    if(q.c)res.appendChild(el("div","meta cek","Arti ini perlu dicek."));
+    var ac=el("div","acts"),n=null;
+    if(idx===st.all-1){n=el("button","next",st.all>=total?"Lihat hasil":"Soal berikutnya");n.type="button";n.onclick=ask;ac.appendChild(n)}
+    if(q.e&&q.e.length){var xb=el("button","alt2","Contoh ayat");xb.type="button";xb.onclick=function(){xOpen(q)};ac.appendChild(xb)}
+    if(ac.childNodes.length)res.appendChild(ac);
+    return n;
+  }
+  function pick(i){
+    if(r.pick!=null||idx!==st.all)return;
+    r.pick=i;st.all++;if(opts[i]===q)st.ok++;
+    var n=reveal(i);score(idx+1);if(n)n.focus();
+  }
+  box.appendChild(wrap);box.appendChild(res);
+  if(r.pick!=null)reveal(r.pick);
+  box._pick=(r.pick==null&&idx===st.all)?pick:null;
+}
+/* pop-up contoh ayat */
+var xm=$("xm"),xmb=$("xmb"),AY=null;
+function xClose(){xm.hidden=true}
+function xOpen(q){
+  xmb.textContent="";xmb.appendChild(el("span","xk",q.a+" · "+q.t));
+  xm.hidden=false;xmb.scrollTop=0;$("xmx").focus();
+  var wait=el("div","gd","Memuat contoh ayat…");xmb.appendChild(wait);
+  (AY?Promise.resolve(AY):fetchJson("ayat").then(function(A){A.byRef={};A.forEach(function(a){A.byRef[a.s+":"+a.n]=a});return AY=A})).then(function(A){
+    wait.remove();
+    q.e.forEach(function(r){var a=A.byRef[r];if(!a)return;
+      var g=el("div","exg");g.appendChild(el("span","ref",sname(a.s).split(". ")[1]+" "+r));
+      var zr=el("div","exr");zr.appendChild(el("div","ar sm",a.ar));var b=spBtn(a.ar);if(b)zr.appendChild(b);g.appendChild(zr);
+      g.appendChild(el("div","tl",a.tl));g.appendChild(el("div","xi",a.id));xmb.appendChild(g)});
+  },function(){wait.textContent="Contoh ayat gagal dimuat."});
+}
+$("xmx").onclick=xClose;xm.onclick=function(e){if(e.target===xm)xClose()};
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!xm.hidden)xClose()});
+/* panduan */
+(function(){
+  var m=$("pm"),body=$("pmb");
+  var g=el("div","gs");g.appendChild(el("h2","","Cara memakai"));
+  var ul0=el("ul");["Pilih surah, lalu bagian (maksimal 20 kata baru per bagian, urut kemunculan di mushaf).","Setiap kata diuji satu kali per sesi. Pilihan jawaban hanya dari bagian yang sama.","Setelah menjawab, tekan \"Contoh ayat\" untuk melihat ayat yang memuat kata itu.","Geser kiri/kanan pada soal untuk maju/mundur. Tombol angka 1–4 memilih jawaban."].forEach(function(t){ul0.appendChild(el("li",null,t))});
+  g.appendChild(ul0);body.appendChild(g);
+  var g2=el("div","gs");g2.appendChild(el("h2","","Cara baca transliterasi"));
+  var ul=el("ul");["ā ī ū = vokal panjang","' = hamzah (berhenti sejenak), ʿ = 'ain (suara dari kerongkongan)","sy = ش, kh = خ, dz = ذ, ts = ث, sh = ص, dh = ض, th = ط, zh = ظ, gh = غ, q = ق","-un -in -an di akhir kata = tanwin (bunyi n)"].forEach(function(t){ul.appendChild(el("li",null,t))});
+  g2.appendChild(ul);g2.appendChild(el("p",null,"Transliterasi dibuat otomatis per kata dan belum ditinjau pembaca Al-Quran yang kompeten."));body.appendChild(g2);
+  var g3=el("div","gs");g3.appendChild(el("h2","","Sumber data"));
+  var ul3=el("ul");["Teks Arab: Tanzil Project (tanzil.net), tidak diubah.","Terjemah ayat: Kementerian Agama RI (2010) melalui Tanzil.","Arti per kata: SadaqaWorks/Word-By-Word-Quran-Android (MIT). Entri bertanda \"perlu dicek\" belum diverifikasi."].forEach(function(t){ul3.appendChild(el("li",null,t))});
+  g3.appendChild(ul3);body.appendChild(g3);
+  function open(){m.hidden=false;$("t3").setAttribute("aria-expanded","true");body.scrollTop=0;$("pmx").focus()}
+  function close(){m.hidden=true;$("t3").setAttribute("aria-expanded","false");$("t3").focus()}
+  $("t3").onclick=function(e){e.preventDefault();open()};$("pmx").onclick=close;
+  m.onclick=function(e){if(e.target===m)close()};
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden)close()});
+  if(location.hash==="#info")open();
+})();
+/* geser kiri/kanan pada soal: kiri = berikutnya, kanan = sebelumnya */
+(function(){
+  var q=$("quiz"),x0=0,y0=0,t0=0,sw=0,on=false;
+  q.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse"&&e.button!==0)return;on=true;x0=e.clientX;y0=e.clientY;t0=Date.now()});
+  q.addEventListener("pointercancel",function(){on=false});
+  q.addEventListener("pointerup",function(e){
+    if(!on)return;on=false;var dx=e.clientX-x0,dy=e.clientY-y0;
+    if(Math.abs(dx)<60||Math.abs(dx)<Math.abs(dy)*1.5||Date.now()-t0>900)return;
+    sw=Date.now();
+    if(dx>0){if(vi>0)show(vi-1,-1)}else if(vi<st.all)show(vi+1,1);
+  });
+  q.addEventListener("click",function(e){if(Date.now()-sw<500){e.stopPropagation();e.preventDefault()}},true);
+})();
+document.addEventListener("keydown",function(e){
+  if(e.ctrlKey||e.metaKey||e.altKey)return;var n=parseInt(e.key,10);
+  if(n>=1&&n<=4&&$("quiz")._pick)$("quiz")._pick(n-1);
+});
+$("rs").onclick=function(){start(cur.s,cur.p,true)};
+/* mulai: muat kata, bangun tombol surah */
+SURAH.forEach(function(s){
+  var b=el("button","dy "+scol(s.n),String(s.n));b.type="button";b.dataset.n=s.n;
+  b.setAttribute("aria-label","Surah "+s.n+" "+s.name);b.title=s.name+" ("+s.arti+") · "+s.kata+" kata baru";b.setAttribute("aria-pressed","false");
+  if(!s.kata){b.disabled=true;b.style.opacity=".4"}
+  b.onclick=function(){start(s.n,1)};$("days").appendChild(b);
+});
+fetchJson("data").then(function(rows){
+  ALL=rows.filter(function(o){return o.i&&o.a&&o.t});
+  ALL.forEach(function(o){(BY[o.s]||(BY[o.s]=[])).push(o)});
+  var s0=1,p0=1;
+  try{var sv=JSON.parse(localStorage.getItem("awl-deck")||"null");if(sv&&sv.s>=1&&sv.s<=114&&(BY[sv.s]||[]).length){s0=sv.s;p0=sv.p||1}}catch(x){}
+  if(!(BY[s0]||[]).length)s0=1;
+  start(s0,p0);
+},function(){$("quiz").textContent="Data gagal dimuat. Buka lewat GitHub Pages atau server lokal (bukan file langsung)."});
+})();
+</script>
+</body>
+</html>

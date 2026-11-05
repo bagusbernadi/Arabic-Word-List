@@ -7,7 +7,8 @@ Input : Arabic word list/Kosakata_Arab.xlsx
           - sheet "Klausa"   : ayat dipecah per klausa (di tanda waqaf), klausa unik
           - sheet "Surah"    : 114 surah (nama, tempat turun, jumlah)
           - sheet "Progress" : rekap hafalan di Excel (tidak dipakai website)
-Output: docs/index.html, docs/data.json (kata), docs/ayat.json, docs/klausa.json
+Output: docs/index.html (kamus + latihan), docs/deck.html (Belajar Surah: latihan per surah/bagian),
+        docs/data.json (kata), docs/ayat.json, docs/klausa.json
 
 Kolom dicari berdasarkan nama header, bukan posisi. Kolom Status dan Catatan edit hanya untuk Excel.
 Contoh ayat di kamus diambil dari sheet Ayat lewat kolom "Contoh 1 Ref" .. "Contoh 3 Ref" (mis. 2:255).
@@ -24,6 +25,7 @@ import openpyxl
 BASE = Path(__file__).resolve().parent
 XLSX = BASE / "Kosakata_Arab.xlsx"
 TEMPLATE = BASE / "template.html"
+DECK_TEMPLATE = BASE / "deck_template.html"
 OUT_DIR = BASE.parent / "docs"
 
 NOTICE = ("Teks Arab: Tanzil Project (https://tanzil.net), tidak diubah; terjemah ayat: Kementerian Agama RI melalui Tanzil; "
@@ -116,6 +118,16 @@ def main():
         sys.exit(f"template.html harus memuat tepat satu baris '{marker}'")
     html = html.replace(marker, "var SURAH=" + json.dumps(surah, ensure_ascii=False) + ";")
     (OUT_DIR / "index.html").write_text(html, encoding="utf-8")
+
+    # Belajar Surah (deck.html): memakai CSS yang sama dengan index.html
+    dt = DECK_TEMPLATE.read_text(encoding="utf-8")
+    style = re.search(r"<style>.*?</style>", html, re.S).group(0)
+    if dt.count("<!--STYLE-->") != 1:
+        sys.exit("deck_template.html harus memuat tepat satu penanda <!--STYLE-->")
+    if dt.count(marker) != 1:
+        sys.exit(f"deck_template.html harus memuat tepat satu baris '{marker}'")
+    dt = dt.replace("<!--STYLE-->", style).replace(marker, "var SURAH=" + json.dumps(surah, ensure_ascii=False) + ";")
+    (OUT_DIR / "deck.html").write_text(dt, encoding="utf-8")
     print(f"OK: {len(kata)} kata, {len(ayat)} ayat, {len(klausa)} klausa, 114 surah -> {OUT_DIR}")
 
 

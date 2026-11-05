@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Belajar Surah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<!--STYLE-->
+<style>
+#xmx{border:0;background:rgba(241,243,244,.8);color:var(--mute);width:36px;height:36px;border-radius:999px;font-size:16px;cursor:pointer}
+.xk{display:block;margin:0 0 6px;color:var(--mute);font-size:15px}
+#quiz{touch-action:pan-y}@keyframes slL{from{opacity:.2;transform:translateX(40px)}to{opacity:1;transform:none}}@keyframes slR{from{opacity:.2;transform:translateX(-40px)}to{opacity:1;transform:none}}#quiz.sl{animation:slL .25s ease-out}#quiz.sr{animation:slR .25s ease-out}
+.acts{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:14px}.acts .next,.acts button.alt2{margin-top:0}
+button.alt2{background:#ffffff;color:var(--blue);border:0;border-radius:999px;padding:9px 22px;font:700 16px var(--font);cursor:pointer}
+.days{display:grid;grid-template-columns:repeat(auto-fill,minmax(52px,1fr));gap:8px;margin-top:14px}
+.days.parts{max-height:176px;overflow:auto;padding:2px}
+.dy{font:700 16px var(--font);color:#ffffff;border:3px solid transparent;border-radius:12px;padding:8px 0;cursor:pointer}
+.dy.b{background:#4285F4}.dy.g{background:#34A853}.dy.p{background:#5F6368}
+.dy[aria-pressed="true"]{border-color:#202124;box-shadow:0 0 0 2px #ffffff inset}
+.dlbl{margin-top:16px;font:700 14px var(--font);color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.dinfo{margin-top:14px;font-size:17px}
+.dinfo small{display:block;color:var(--mute);font-size:15px}
+.dsub{color:var(--mute);margin:8px 0 0;font-size:16px}
+.exg{display:flex;flex-direction:column;gap:6px;background:rgba(241,243,244,.72);border-left:6px solid var(--blue);border-radius:14px;padding:10px 12px;margin-top:8px}
+.exg .tl{font-size:15px}.exg .xi{color:var(--ink);font-size:15px}
+</style>
+</head>
+<body>
+<header class="hd"><h1>Belajar Surah</h1><p class="dsub">Latihan per surah: Indonesia → Arab &amp; transliterasi. Tiap sesi hanya menguji kata baru di surah dan bagian itu (maksimal 20 kata).</p></header>
+<div class="wrap">
+<div class="tabs"><a class="tab" href="index.html">Kamus</a><a class="tab" href="index.html#latihan">Latihan</a><a class="tab" aria-selected="true" aria-current="page" href="deck.html">Belajar Surah</a><button class="tab" type="button" id="t3" aria-haspopup="dialog" aria-expanded="false" aria-label="Panduan dan sumber data" title="Panduan dan sumber data"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></button></div>
+<div class="dlbl">Surah</div>
+<div class="days" id="days" role="group" aria-label="Pilih surah"></div>
+<div class="dlbl" id="plbl" hidden>Bagian</div>
+<div class="days parts" id="parts" role="group" aria-label="Pilih bagian" hidden></div>
+<div class="dinfo" id="dinfo"></div>
+<div class="score"><span id="sc"></span><button class="lnk" id="rs" type="button">Ulangi bagian ini</button></div>
+<div class="pg"><div id="pgf"></div></div>
+<div class="card" id="quiz">Memuat soal…</div>
+</div>
+<div class="pm" id="pm" role="dialog" aria-modal="true" aria-labelledby="pmt" hidden>
+<div class="pmc"><div class="pmh"><h2 id="pmt">Panduan dan sumber data</h2><button type="button" id="pmx" aria-label="Tutup">✕</button></div><div class="pmb" id="pmb"></div></div>
+</div>
+<div class="pm" id="xm" role="dialog" aria-modal="true" aria-labelledby="xmt" hidden>
+<div class="pmc"><div class="pmh"><h2 id="xmt">Contoh ayat</h2><button type="button" id="xmx" aria-label="Tutup">✕</button></div><div class="pmb" id="xmb"></div></div>
+</div>
+<script>
+(function(){
+var SURAH=[];
+var PART=20;
+function $(i){return document.getElementById(i)}
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function norm(s){
+  return String(s==null?"":s).normalize("NFD")
+    .replace(/[ً-ٰٟۖ-ۭـ]/g,"").replace(/[̀-ͯ]/g,"")
+    .replace(/[آأإٱ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه")
+    .replace(/[ʿʼ'’`\-]/g,"").toLowerCase();
+}
+function toast(m){var t=$("toast");if(!t){t=document.createElement("div");t.id="toast";t.setAttribute("role","status");t.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#202124;color:#fff;padding:10px 16px;border-radius:12px;font:700 14px Calibri,Arial,sans-serif;z-index:99;max-width:90%;text-align:center";document.body.appendChild(t)}t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(function(){t.style.display="none"},4000)}
+function fetchJson(name){return fetch(name+".json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(j){return j.rows})}
+/* suara (Web Speech API, ar-SA) */
+var SYN=window.speechSynthesis;
+function speak(text,btn){
+  if(!SYN){toast("Browser ini tidak mendukung suara");return}
+  Array.prototype.forEach.call(document.querySelectorAll(".sp.on"),function(x){x.classList.remove("on")});
+  try{SYN.cancel()}catch(x){}
+  var u=new SpeechSynthesisUtterance(text);u.lang="ar-SA";u.rate=.8;
+  var vs=[];try{vs=(SYN.getVoices()||[]).filter(function(v){return /^ar/i.test(v.lang)})}catch(x){}
+  if(vs.length)u.voice=vs[0];
+  u.onstart=function(){if(btn)btn.classList.add("on")};
+  u.onend=function(){if(btn)btn.classList.remove("on")};
+  u.onerror=function(e){if(btn)btn.classList.remove("on");if(e&&e.error!=="canceled"&&e.error!=="interrupted")toast("Suara Arab tidak tersedia di perangkat ini")};
+  try{SYN.resume()}catch(x){}
+  SYN.speak(u);
+}
+function spBtn(text){
+  if(!SYN)return null;
+  var b=el("button","sp");b.type="button";b.setAttribute("aria-label","Dengarkan");
+  b.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+  b.onclick=function(e){e.stopPropagation();speak(text,b)};
+  return b;
+}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function same(a,b){return norm(a).replace(/\s+/g,"")===norm(b).replace(/\s+/g,"")}
+function letters(s){var o={};norm(s).replace(/[ء-ي]/g,function(c){o[c]=1});return o}
+function jac(a,b){var i=0,u=0,k;for(k in a){u++;if(b[k])i++}for(k in b)if(!a[k])u++;return u?i/u:0}
+function wtoks(s){var o={};norm(s).split(/[^a-z0-9]+/).forEach(function(w){if(w.length>2)o[w]=1});return o}
+function sim(q,d){
+  var s=jac(letters(q.a),letters(d.a))*5+jac(wtoks(q.i),wtoks(d.i))*3+Math.max(0,1-Math.abs(q.a.length-d.a.length)/8);
+  return s+Math.random()*.8;
+}
+function sname(s){var o=SURAH[s-1];return o?o.n+". "+o.name:String(s)}
+function scol(s){var o=SURAH[s-1];return o&&/madin/i.test(o.type)?"g":"b"}
+
+var ALL=[],BY={},cur={s:1,p:1},deck=[],rec=[],st={ok:0,all:0},total=0,vi=0,POOLS=[];
+function partsOf(s){
+  var L=BY[s]||[],k=Math.max(1,Math.ceil(L.length/PART)),sz=Math.ceil(L.length/k),out=[];
+  for(var i=0;i<k;i++){var c=L.slice(i*sz,(i+1)*sz);if(c.length)out.push(c)}
+  return out;
+}
+/* pilihan jawaban: dari bagian yang sama; bila kurang dari 4, dilengkapi kata mirip dari surah lain */
+function pickOpts(q,pool){
+  var seen=[q],opts=[q];
+  function ok(c){return c!==q&&!seen.some(function(s){return same(s.i,c.i)||norm(s.a)===norm(c.a)||s.t===c.t})}
+  var base=pool.filter(ok).map(function(d){return[sim(q,d),d]}).sort(function(a,b){return b[0]-a[0]}).map(function(x){return x[1]});
+  for(var i=0;i<base.length&&opts.length<4;i++){if(ok(base[i])){opts.push(base[i]);seen.push(base[i])}}
+  if(opts.length<4){
+    var extra=shuf(ALL).slice(0,1500).filter(ok).map(function(d){return[sim(q,d),d]}).sort(function(a,b){return b[0]-a[0]}).map(function(x){return x[1]});
+    for(var j=0;j<extra.length&&opts.length<4;j++){if(ok(extra[j])){opts.push(extra[j]);seen.push(extra[j])}}
+  }
+  return shuf(opts);
+}
+function score(n){$("sc").textContent=(n>total?"Selesai":"Soal "+n+" dari "+total)+" · Benar "+st.ok;$("pgf").style.width=Math.min(st.all,total)/total*100+"%"}
+function save(){try{localStorage.setItem("awl-deck",JSON.stringify(cur))}catch(x){}}
+function markBtns(){
+  Array.prototype.forEach.call($("days").children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.n===cur.s))});
+  Array.prototype.forEach.call($("parts").children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.n===cur.p))});
+}
+function buildParts(){
+  var P=$("parts");P.textContent="";POOLS=partsOf(cur.s);
+  var show=POOLS.length>1;$("parts").hidden=!show;$("plbl").hidden=!show;
+  POOLS.forEach(function(c,i){
+    var b=el("button","dy p",String(i+1));b.type="button";b.dataset.n=i+1;b.setAttribute("aria-label","Bagian "+(i+1)+" ("+c.length+" kata)");b.setAttribute("aria-pressed","false");
+    b.onclick=function(){start(cur.s,i+1)};P.appendChild(b);
+  });
+}
+function start(s,p,keepParts){
+  var changed=s!==cur.s||!POOLS.length;
+  cur={s:s,p:p||1};if(changed&&!keepParts)buildParts();
+  if(cur.p>POOLS.length)cur.p=1;
+  var pool=POOLS[cur.p-1]||[];deck=shuf(pool);rec=[];total=pool.length;st={ok:0,all:0};
+  markBtns();save();
+  var o=SURAH[s-1],di=$("dinfo");di.textContent="";
+  di.appendChild(el("b",null,sname(s)+(POOLS.length>1?" · bagian "+cur.p+" dari "+POOLS.length:"")));
+  di.appendChild(el("small",null,(o?o.arti+" · "+o.type+" · ":"")+total+" kata dalam bagian ini · "+(BY[s]||[]).length+" kata baru di surah ini"));
+  if(!total){var bx=$("quiz");bx.textContent="";bx._pick=null;bx.appendChild(el("div","empty","Surah ini tidak punya kata baru. Semua katanya sudah muncul di surah sebelumnya."));$("sc").textContent="";$("pgf").style.width="0";return}
+  show(0);
+}
+function nextTarget(){
+  if(cur.p<POOLS.length)return{label:"Bagian "+(cur.p+1)+" →",go:function(){start(cur.s,cur.p+1,true)}};
+  for(var s=cur.s+1;s<=114;s++){if((BY[s]||[]).length){return{label:"Surah "+s+" →",go:function(){start(s,1)}}}}
+  return null;
+}
+function summary(){
+  var box=$("quiz");box.textContent="";box._pick=null;score(total+1);
+  box.appendChild(el("div","ask",sname(cur.s)+(POOLS.length>1?" · bagian "+cur.p:"")+" selesai"));
+  box.appendChild(el("p","qt id","Benar "+st.ok+" dari "+total+" ("+Math.round(st.ok/total*100)+"%)"));
+  var w=el("div","acts"),a=el("button","next","Ulangi bagian ini");a.type="button";a.onclick=function(){start(cur.s,cur.p,true)};w.appendChild(a);
+  var nt=nextTarget();if(nt){var b=el("button","alt2",nt.label);b.type="button";b.onclick=function(){nt.go();window.scrollTo(0,0)};w.appendChild(b)}
+  box.appendChild(w);a.focus();
+}
+function ask(){show(st.all)}
+function slide(dir){
+  if(!dir)return;var b=$("quiz");b.classList.remove("sl","sr");void b.offsetWidth;b.classList.add(dir>0?"sl":"sr");
+  setTimeout(function(){b.classList.remove("sl","sr")},300);
+}
+function show(idx,dir){
+  vi=idx;slide(dir);
+  if(idx>=total){summary();return}
+  score(idx+1);
+  var q=deck[idx],pool=POOLS[cur.p-1],box=$("quiz");box.textContent="";
+  var r=rec[idx]||(rec[idx]={opts:pickOpts(q,pool),pick:null}),opts=r.opts;
+  box.appendChild(el("div","ask","Pilih bacaan Arab dan transliterasi yang tepat untuk:"));
+  box.appendChild(el("p","qt id",q.i));
+  var wrap=el("div","opts"),btns=[],res=el("div","res");
+  opts.forEach(function(o,i){
+    var b=el("button","opt ap ar-o");b.type="button";b.appendChild(el("span","k",String(i+1)));
+    var t=el("span","t");t.appendChild(el("span","oa",o.a));t.appendChild(el("span","oy tl",o.t));b.appendChild(t);
+    b.onclick=function(){pick(i)};btns.push(b);
+    var ow=el("div","ow");ow.appendChild(b);var ob=spBtn(o.a);if(ob){ob.classList.add("lg");ow.appendChild(ob)}wrap.appendChild(ow);
+  });
+  function reveal(i){
+    var good=opts[i]===q;
+    btns.forEach(function(b,k){b.disabled=true;if(opts[k]===q)b.classList.add("ok");else if(k===i)b.classList.add("no");b.appendChild(el("span","oi",opts[k].i))});
+    res.appendChild(el("div","v",good?"Benar.":"Belum tepat."));
+    var rh=el("div","rh");rh.appendChild(el("div","ar sm",q.a));var rb=spBtn(q.a);if(rb)rh.appendChild(rb);res.appendChild(rh);
+    res.appendChild(el("div","tl",q.t));res.appendChild(el("div","id",q.i));
+    res.appendChild(el("div","meta","Muncul "+q.f+"× di Al-Quran · pertama di "+q.r));
+    if(q.x)res.appendChild(el("div","meta","Arti lain: "+q.x));
+    if(q.c)res.appendChild(el("div","meta cek","Arti ini perlu dicek."));
+    var ac=el("div","acts"),n=null;
+    if(idx===st.all-1){n=el("button","next",st.all>=total?"Lihat hasil":"Soal berikutnya");n.type="button";n.onclick=ask;ac.appendChild(n)}
+    if(q.e&&q.e.length){var xb=el("button","alt2","Contoh ayat");xb.type="button";xb.onclick=function(){xOpen(q)};ac.appendChild(xb)}
+    if(ac.childNodes.length)res.appendChild(ac);
+    return n;
+  }
+  function pick(i){
+    if(r.pick!=null||idx!==st.all)return;
+    r.pick=i;st.all++;if(opts[i]===q)st.ok++;
+    var n=reveal(i);score(idx+1);if(n)n.focus();
+  }
+  box.appendChild(wrap);box.appendChild(res);
+  if(r.pick!=null)reveal(r.pick);
+  box._pick=(r.pick==null&&idx===st.all)?pick:null;
+}
+/* pop-up contoh ayat */
+var xm=$("xm"),xmb=$("xmb"),AY=null;
+function xClose(){xm.hidden=true}
+function xOpen(q){
+  xmb.textContent="";xmb.appendChild(el("span","xk",q.a+" · "+q.t));
+  xm.hidden=false;xmb.scrollTop=0;$("xmx").focus();
+  var wait=el("div","gd","Memuat contoh ayat…");xmb.appendChild(wait);
+  (AY?Promise.resolve(AY):fetchJson("ayat").then(function(A){A.byRef={};A.forEach(function(a){A.byRef[a.s+":"+a.n]=a});return AY=A})).then(function(A){
+    wait.remove();
+    q.e.forEach(function(r){var a=A.byRef[r];if(!a)return;
+      var g=el("div","exg");g.appendChild(el("span","ref",sname(a.s).split(". ")[1]+" "+r));
+      var zr=el("div","exr");zr.appendChild(el("div","ar sm",a.ar));var b=spBtn(a.ar);if(b)zr.appendChild(b);g.appendChild(zr);
+      g.appendChild(el("div","tl",a.tl));g.appendChild(el("div","xi",a.id));xmb.appendChild(g)});
+  },function(){wait.textContent="Contoh ayat gagal dimuat."});
+}
+$("xmx").onclick=xClose;xm.onclick=function(e){if(e.target===xm)xClose()};
+document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!xm.hidden)xClose()});
+/* panduan */
+(function(){
+  var m=$("pm"),body=$("pmb");
+  var g=el("div","gs");g.appendChild(el("h2","","Cara memakai"));
+  var ul0=el("ul");["Pilih surah, lalu bagian (maksimal 20 kata baru per bagian, urut kemunculan di mushaf).","Setiap kata diuji satu kali per sesi. Pilihan jawaban hanya dari bagian yang sama.","Setelah menjawab, tekan \"Contoh ayat\" untuk melihat ayat yang memuat kata itu.","Geser kiri/kanan pada soal untuk maju/mundur. Tombol angka 1–4 memilih jawaban."].forEach(function(t){ul0.appendChild(el("li",null,t))});
+  g.appendChild(ul0);body.appendChild(g);
+  var g2=el("div","gs");g2.appendChild(el("h2","","Cara baca transliterasi"));
+  var ul=el("ul");["ā ī ū = vokal panjang","' = hamzah (berhenti sejenak), ʿ = 'ain (suara dari kerongkongan)","sy = ش, kh = خ, dz = ذ, ts = ث, sh = ص, dh = ض, th = ط, zh = ظ, gh = غ, q = ق","-un -in -an di akhir kata = tanwin (bunyi n)"].forEach(function(t){ul.appendChild(el("li",null,t))});
+  g2.appendChild(ul);g2.appendChild(el("p",null,"Transliterasi dibuat otomatis per kata dan belum ditinjau pembaca Al-Quran yang kompeten."));body.appendChild(g2);
+  var g3=el("div","gs");g3.appendChild(el("h2","","Sumber data"));
+  var ul3=el("ul");["Teks Arab: Tanzil Project (tanzil.net), tidak diubah.","Terjemah ayat: Kementerian Agama RI (2010) melalui Tanzil.","Arti per kata: SadaqaWorks/Word-By-Word-Quran-Android (MIT). Entri bertanda \"perlu dicek\" belum diverifikasi."].forEach(function(t){ul3.appendChild(el("li",null,t))});
+  g3.appendChild(ul3);body.appendChild(g3);
+  function open(){m.hidden=false;$("t3").setAttribute("aria-expanded","true");body.scrollTop=0;$("pmx").focus()}
+  function close(){m.hidden=true;$("t3").setAttribute("aria-expanded","false");$("t3").focus()}
+  $("t3").onclick=function(e){e.preventDefault();open()};$("pmx").onclick=close;
+  m.onclick=function(e){if(e.target===m)close()};
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden)close()});
+  if(location.hash==="#info")open();
+})();
+/* geser kiri/kanan pada soal: kiri = berikutnya, kanan = sebelumnya */
+(function(){
+  var q=$("quiz"),x0=0,y0=0,t0=0,sw=0,on=false;
+  q.addEventListener("pointerdown",function(e){if(e.pointerType==="mouse"&&e.button!==0)return;on=true;x0=e.clientX;y0=e.clientY;t0=Date.now()});
+  q.addEventListener("pointercancel",function(){on=false});
+  q.addEventListener("pointerup",function(e){
+    if(!on)return;on=false;var dx=e.clientX-x0,dy=e.clientY-y0;
+    if(Math.abs(dx)<60||Math.abs(dx)<Math.abs(dy)*1.5||Date.now()-t0>900)return;
+    sw=Date.now();
+    if(dx>0){if(vi>0)show(vi-1,-1)}else if(vi<st.all)show(vi+1,1);
+  });
+  q.addEventListener("click",function(e){if(Date.now()-sw<500){e.stopPropagation();e.preventDefault()}},true);
+})();
+document.addEventListener("keydown",function(e){
+  if(e.ctrlKey||e.metaKey||e.altKey)return;var n=parseInt(e.key,10);
+  if(n>=1&&n<=4&&$("quiz")._pick)$("quiz")._pick(n-1);
+});
+$("rs").onclick=function(){start(cur.s,cur.p,true)};
+/* mulai: muat kata, bangun tombol surah */
+SURAH.forEach(function(s){
+  var b=el("button","dy "+scol(s.n),String(s.n));b.type="button";b.dataset.n=s.n;
+  b.setAttribute("aria-label","Surah "+s.n+" "+s.name);b.title=s.name+" ("+s.arti+") · "+s.kata+" kata baru";b.setAttribute("aria-pressed","false");
+  if(!s.kata){b.disabled=true;b.style.opacity=".4"}
+  b.onclick=function(){start(s.n,1)};$("days").appendChild(b);
+});
+fetchJson("data").then(function(rows){
+  ALL=rows.filter(function(o){return o.i&&o.a&&o.t});
+  ALL.forEach(function(o){(BY[o.s]||(BY[o.s]=[])).push(o)});
+  var s0=1,p0=1;
+  try{var sv=JSON.parse(localStorage.getItem("awl-deck")||"null");if(sv&&sv.s>=1&&sv.s<=114&&(BY[sv.s]||[]).length){s0=sv.s;p0=sv.p||1}}catch(x){}
+  if(!(BY[s0]||[]).length)s0=1;
+  start(s0,p0);
+},function(){$("quiz").textContent="Data gagal dimuat. Buka lewat GitHub Pages atau server lokal (bukan file langsung)."});
+})();
+</script>
+</body>
+</html>
