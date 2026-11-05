@@ -361,7 +361,7 @@ render();
 /* latihan */
 var SES=10,deck=[],st={ok:0,all:0},qmode="a",ready=false;
 var MODES={
-  a:{t:"A",d:"Indonesia → Arab & Transliterasi",ask:"Pilih bacaan Arab yang tepat untuk:"},
+  a:{t:"A",d:"Indonesia → Arab",ask:"Pilih tulisan Arab yang tepat untuk:"},
   b:{t:"B",d:"Arab → Indonesia",ask:"Apa arti dalam bahasa Indonesia?"},
   c:{t:"C",d:"Transliterasi → Arab",ask:"Pilih tulisan Arab yang tepat untuk:"}
 };
@@ -429,7 +429,7 @@ function ask(){
     b.appendChild(el("span","k",String(i+1)));
     var t=el("span","t");
     if(qmode==="b")t.textContent=o.i;
-    else{t.appendChild(el("span","oa",o.a));if(qmode==="a")t.appendChild(el("span","oy tl",o.t))}
+    else{t.appendChild(el("span","oa",o.a))}
     b.appendChild(t);b.onclick=function(){pick(i)};btns.push(b);wrap.appendChild(b);
   });
   function pick(i){
