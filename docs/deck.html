@@ -168,6 +168,9 @@ a.tab{text-decoration:none;display:inline-block}
 .gs code{background:rgba(241,243,244,.9);border-radius:6px;padding:1px 6px}
 </style>
 <style>
+[hidden]{display:none!important}
+.pickbar{margin-top:14px}
+#tp[aria-expanded="true"]{background:var(--blue);color:#ffffff}
 #xmx{border:0;background:rgba(241,243,244,.8);color:var(--mute);width:36px;height:36px;border-radius:999px;font-size:16px;cursor:pointer}
 .xk{display:block;margin:0 0 6px;color:var(--mute);font-size:15px}
 #quiz{touch-action:pan-y}@keyframes slL{from{opacity:.2;transform:translateX(40px)}to{opacity:1;transform:none}}@keyframes slR{from{opacity:.2;transform:translateX(-40px)}to{opacity:1;transform:none}}#quiz.sl{animation:slL .25s ease-out}#quiz.sr{animation:slR .25s ease-out}
@@ -190,10 +193,13 @@ button.alt2{background:#ffffff;color:var(--blue);border:0;border-radius:999px;pa
 <header class="hd"><h1>Belajar Surah</h1><p class="dsub">Latihan per surah: Indonesia → Arab &amp; transliterasi. Tiap sesi hanya menguji kata baru di surah dan bagian itu (maksimal 20 kata).</p></header>
 <div class="wrap">
 <div class="tabs"><a class="tab" href="index.html">Kamus</a><a class="tab" href="index.html#latihan">Latihan</a><a class="tab" aria-selected="true" aria-current="page" href="deck.html">Belajar Surah</a><button class="tab" type="button" id="t3" aria-haspopup="dialog" aria-expanded="false" aria-label="Panduan dan sumber data" title="Panduan dan sumber data"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></button></div>
+<div class="pickbar"><button class="tab" type="button" id="tp" aria-expanded="false" aria-controls="pick">Pilih surah / bagian ▾</button></div>
+<div id="pick" hidden>
 <div class="dlbl">Surah</div>
 <div class="days" id="days" role="group" aria-label="Pilih surah"></div>
 <div class="dlbl" id="plbl" hidden>Bagian</div>
 <div class="days parts" id="parts" role="group" aria-label="Pilih bagian" hidden></div>
+</div>
 <div class="dinfo" id="dinfo"></div>
 <div class="score"><span id="sc"></span><button class="lnk" id="rs" type="button">Ulangi bagian ini</button></div>
 <div class="pg"><div id="pgf"></div></div>
@@ -277,12 +283,19 @@ function markBtns(){
   Array.prototype.forEach.call($("days").children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.n===cur.s))});
   Array.prototype.forEach.call($("parts").children,function(b){b.setAttribute("aria-pressed",String(+b.dataset.n===cur.p))});
 }
+/* tombol sembunyikan/tampilkan pilihan surah dan bagian */
+function setPick(open,scroll){
+  $("pick").hidden=!open;var t=$("tp");t.setAttribute("aria-expanded",String(open));
+  t.textContent=open?"Sembunyikan pilihan ▴":"Pilih surah / bagian ▾";
+  if(!open&&scroll){var d=$("dinfo");if(d.scrollIntoView)d.scrollIntoView({block:"start",behavior:"smooth"})}
+}
+$("tp").onclick=function(){setPick($("pick").hidden)};
 function buildParts(){
   var P=$("parts");P.textContent="";POOLS=partsOf(cur.s);
   var show=POOLS.length>1;$("parts").hidden=!show;$("plbl").hidden=!show;
   POOLS.forEach(function(c,i){
     var b=el("button","dy p",String(i+1));b.type="button";b.dataset.n=i+1;b.setAttribute("aria-label","Bagian "+(i+1)+" ("+c.length+" kata)");b.setAttribute("aria-pressed","false");
-    b.onclick=function(){start(cur.s,i+1)};P.appendChild(b);
+    b.onclick=function(){start(cur.s,i+1,true);setPick(false,true)};P.appendChild(b);
   });
 }
 function start(s,p,keepParts){
@@ -413,7 +426,7 @@ SURAH.forEach(function(s){
   var b=el("button","dy "+scol(s.n),String(s.n));b.type="button";b.dataset.n=s.n;
   b.setAttribute("aria-label","Surah "+s.n+" "+s.name);b.title=s.name+" ("+s.arti+") · "+s.kata+" kata baru";b.setAttribute("aria-pressed","false");
   if(!s.kata){b.disabled=true;b.style.opacity=".4"}
-  b.onclick=function(){start(s.n,1)};$("days").appendChild(b);
+  b.onclick=function(){start(s.n,1);setPick(POOLS.length>1,POOLS.length<=1)};$("days").appendChild(b);
 });
 fetchJson("data").then(function(rows){
   ALL=rows.filter(function(o){return o.i&&o.a&&o.t});
