@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kamus Arab Al-Quran</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--card:#F1F3F4;--line:#DADCE0;--ink:#202124;--mute:#5F6368;--blue:#4285F4;--red:#EA4335;--yel:#FBBC05;--grn:#34A853;--pri:#202124;--pri-ink:#ffffff;--link:#1A73E8;--pyc:#1A73E8;--ok:#188038;--ok-bg:#E6F4EA;--err:#C5221F;--err-bg:#FCE8E6;--mark:#FEEFC3;--hz:"Amiri","Noto Naskh Arabic","Traditional Arabic","Scheherazade New",serif;--font:Calibri,Carlito,"Segoe UI",Arial,sans-serif;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{background:#ffffff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+.hd{max-width:860px;margin:0 auto;padding:28px 20px 16px}
+h1{margin:0;font:700 40px/1.15 var(--font);color:var(--ink)}
+h1 .c0,h1 .c1,h1 .c2,h1 .c3{color:var(--ink)}
+h1::after{content:"";display:block;width:72px;height:6px;border-radius:3px;background:linear-gradient(90deg,#4285F4 25%,#EA4335 0 50%,#FBBC05 0 75%,#34A853 0);margin-top:12px}
+.wrap{max-width:860px;margin:0 auto;padding:8px 20px 48px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+#tc{border:2px solid var(--line);background:#ffffff;padding:4px 16px}
+#tc.on{border-color:var(--blue);color:var(--blue)}
+.tab{font:700 16px var(--font);background:var(--card);color:var(--mute);border:0;border-radius:999px;padding:6px 20px;cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--blue);color:#ffffff}
+button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.bar{position:sticky;top:0;background:#ffffff;padding:14px 0 8px;z-index:2}
+#q{width:100%;font:inherit;padding:11px 16px;border:2px solid var(--line);border-radius:12px;background:#ffffff;color:var(--ink)}
+#q:focus{border-color:var(--blue);outline:none}
+#q::placeholder{color:#80868B}
+#info{color:var(--mute);font-size:15px;margin:8px 2px 0}
+.card{background:var(--card);border-radius:16px;border-left:8px solid var(--blue);padding:16px 20px;margin-top:12px}
+.card.cb{border-left-color:var(--blue)}.card.cr{border-left-color:var(--red)}.card.cy{border-left-color:var(--yel)}.card.cg{border-left-color:var(--grn)}
+.cats{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.cats[hidden]{display:none}
+.ct{font:700 15px var(--font);color:#ffffff;border:3px solid transparent;border-radius:999px;padding:6px 14px;cursor:pointer;background:var(--pri)}
+.ct.b{background:var(--blue)}.ct.r{background:var(--red)}.ct.y{background:var(--yel);color:var(--ink)}.ct.g{background:var(--grn)}
+.ct small{font-weight:400;opacity:.9;margin-left:4px}
+.ct[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px #ffffff inset}
+.row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;background:#ffffff;border-radius:10px;padding:8px 14px}
+.row+.row{margin-top:6px}
+.id{font-size:18px;font-weight:400;color:var(--ink)}
+.hz{font:700 24px/1.3 var(--hz);color:var(--ink)}
+.py{color:var(--pyc);font-weight:700;font-size:16px}
+.meta{color:var(--mute);font-size:15px;margin-top:8px}
+.lb{display:inline-block;font:700 14px/1 var(--font);border-radius:999px;padding:5px 12px;margin-bottom:10px;color:#ffffff}
+.lb.g{background:var(--grn)}
+.lb.b{background:var(--blue)}
+.lb.y{background:var(--yel);color:var(--ink)}
+.lb.r{background:var(--red)}
+button.cp{flex:none;border:0;background:var(--card);color:var(--ink);border-radius:999px;padding:5px 14px;font:700 14px var(--font);cursor:pointer;min-width:76px}
+button.cp:hover{background:var(--line)}
+button.cp.ok{background:var(--ok-bg);color:var(--ok)}
+mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
+.empty{color:var(--mute);text-align:center;padding:40px 12px;font-size:16px}
+.score{display:flex;justify-content:space-between;align-items:center;color:var(--mute);font-size:15px;margin-top:12px}
+.pg{height:6px;background:var(--card);border-radius:999px;margin-top:10px;overflow:hidden}
+#pgf{height:100%;width:0;background:linear-gradient(90deg,#4285F4,#34A853);border-radius:999px;transition:width .3s}
+.ask{color:var(--mute);font-size:15px;font-weight:700}
+.qt{margin:6px 0 0;word-break:break-word}
+.qt.hz{font:700 34px/1.3 var(--hz);color:var(--ink)}
+.qt.py{font:700 22px/1.4 var(--font);color:var(--pyc)}
+.qt.id{font:400 22px/1.4 var(--font);color:var(--ink)}
+.opts{display:grid;gap:8px;margin-top:14px}
+.opt{text-align:left;background:#ffffff;color:var(--ink);border:2px solid transparent;border-radius:10px;padding:10px 14px;font:inherit;cursor:pointer;display:flex;gap:12px;align-items:center}
+.opt:hover:not(:disabled){border-color:var(--blue)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 13px var(--font);background:var(--card);color:var(--mute)}
+.opt .t{word-break:break-word}
+.opt.hz .t{font:700 22px/1.35 var(--hz);color:var(--ink)}
+.opt.py .t{color:var(--pyc);font-weight:700}
+.opt.ok{background:var(--ok-bg);border-color:var(--grn)}
+.opt.ok .t{color:var(--ok)}
+.opt.no{background:var(--err-bg);border-color:var(--red)}
+.opt.no .t{color:var(--err)}
+.opt:disabled{cursor:default}
+.res{margin-top:14px;padding-top:14px;border-top:2px solid var(--line)}
+.res .v{font-weight:700;margin-bottom:6px}
+button.next{margin-top:14px;background:var(--blue);color:#ffffff;border:0;border-radius:999px;padding:9px 22px;font:700 16px var(--font);cursor:pointer}
+button.next:hover{background:#1A73E8}
+button.lnk{background:none;border:0;color:var(--link);cursor:pointer;font:inherit;font-size:15px;font-weight:700}
+@media (max-width:480px){.hd,.wrap{padding-left:16px;padding-right:16px}h1{font-size:32px}.hz{font-size:22px}.qt.hz{font-size:30px}}
+.exs{margin-top:12px;padding-top:12px;border-top:2px dashed var(--line)}
+.exh{font:700 13px var(--font);color:var(--mute);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.ex{padding:8px 14px;margin-top:6px;background:#ffffff;border-radius:10px}
+.ex:last-child{padding-bottom:8px}
+.ex-id{color:var(--ink);font-size:16px}
+.ex-py{color:var(--pyc);font-size:15px;font-weight:700}
+.ex-hz{color:var(--ink);font:700 18px/1.45 var(--hz)}
+.id.tog{cursor:pointer;display:inline-block}
+.id.tog::after{content:" \25BE";color:#80868B;font-size:13px}
+.id.tog.open::after{content:" \25B4"}
+.id.tog:hover{color:var(--link)}
+.exs[hidden]{display:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:15px;color:var(--mute);margin-top:14px}
+.legend b{font-weight:700}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.mode{text-align:left;background:var(--card);color:var(--ink);border:2px solid transparent;border-radius:12px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.mode b{font:700 15px var(--font);color:var(--mute)}
+.mode span{font-size:14px;line-height:1.3}
+.mode[aria-pressed="true"]{background:#E8F0FE;border-color:var(--blue)}
+.mode[aria-pressed="true"] b{color:var(--blue)}
+.opt.ap .t{display:flex;flex-direction:column}
+.opt .oh{font:700 22px/1.35 var(--hz);color:var(--ink)}
+.opt .oy{color:var(--pyc);font-weight:700;font-size:15px}
+.opt.ok .oh,.opt.ok .oy{color:var(--ok)}.opt.no .oh,.opt.no .oy{color:var(--err)}
+.opt.id .t{font-size:17px}
+.ow{display:flex;gap:8px;align-items:stretch}
+.ow .opt{flex:1;min-width:0}
+button.sp.lg{width:46px;height:auto;border-radius:10px;background:#ffffff}
+button.sp.lg.on{background:var(--blue)}
+.opt .oi{margin-left:auto;text-align:right;font-size:14px;line-height:1.3;color:var(--mute);max-width:42%;word-break:break-word}
+.opt.ok .oi{color:var(--ok)}.opt.no .oi{color:var(--err)}
+.wd{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.w{background:#ffffff;border-radius:10px;padding:6px 12px;text-align:center}
+.wh{font:700 28px/1.3 var(--hz);color:var(--ink)}
+.wp{color:var(--pyc);font-weight:700;font-size:15px}
+@media (max-width:560px){.modes{grid-template-columns:1fr}.mode{flex-direction:row;align-items:center;gap:10px}}
+button.sp{flex:none;width:38px;height:34px;border:0;border-radius:999px;background:var(--card);color:var(--blue);cursor:pointer;display:inline-grid;place-items:center;padding:0}
+button.sp.on{background:var(--blue);color:#ffffff}
+.bt{display:flex;gap:6px;align-items:center;flex:none}
+.exr{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.rh{display:flex;gap:10px;align-items:center;justify-content:space-between}
+a.tab{text-decoration:none;display:inline-block}
+.pm{position:fixed;inset:0;z-index:50;background:rgba(32,33,36,.25);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px}
+.pm[hidden]{display:none}
+.pmc{width:100%;max-width:560px;max-height:85vh;display:flex;flex-direction:column;background:rgba(255,255,255,.68);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(255,255,255,.7);border-radius:24px;box-shadow:0 10px 40px rgba(32,33,36,.22);overflow:hidden}
+.pmh{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 10px}
+.pmh h2{font:700 20px var(--font);margin:0;color:var(--ink)}
+.pmh h2:after{content:"";display:block;width:64px;height:4px;margin-top:6px;border-radius:2px;background:linear-gradient(90deg,var(--blue) 25%,var(--red) 25% 50%,var(--yel) 50% 75%,var(--grn) 75%)}
+#pmx{border:0;background:rgba(241,243,244,.8);color:var(--mute);width:36px;height:36px;border-radius:999px;font-size:16px;cursor:pointer}
+.pmb{overflow:auto;padding:0 18px 18px;-webkit-overflow-scrolling:touch}
+.gs{--c:var(--blue)}.gs.r{--c:var(--red)}.gs.y{--c:var(--yel)}.gs.g{--c:var(--grn)}
+.gs h2{display:inline-block;background:var(--c);color:#fff;border-radius:999px;padding:5px 16px;font:700 15px var(--font);margin:0 0 6px}
+.gs.y h2{color:var(--ink)}
+.gi{border-left:6px solid var(--c);background:rgba(241,243,244,.72)!important;border-radius:14px!important}
+.pm button.sp{background:rgba(255,255,255,.85)}.pm button.sp.on{background:var(--blue)}
+#t3{margin-left:auto;padding:6px 12px;display:inline-grid;place-items:center}
+.gs{margin-top:16px}.gs .gd{color:var(--mute);font-size:15px;margin:0 0 8px}
+.gi{display:flex;gap:10px;align-items:center;background:var(--card);border-radius:12px;padding:8px 12px;margin-top:6px}
+.gi .gp{font-weight:700;color:var(--pyc);min-width:76px;font-size:17px}.gi .gh{font:700 24px/1.2 var(--hz);min-width:auto}
+.gi.gn .gp{min-width:76px;max-width:110px;overflow-wrap:anywhere}.gi.gn{padding-top:10px;padding-bottom:10px}
+.gi .gt{flex:1;font-size:15px;line-height:1.35;color:var(--ink)}
+@media (max-width:400px){.tab{font-size:14px;padding:6px 11px}.tabs{gap:4px}#tc{padding:4px 8px!important;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+.ar{font:400 30px/1.9 var(--hz);direction:rtl;text-align:right;color:var(--ink);unicode-bidi:isolate}
+.ar.sm{font-size:26px}
+.tl{color:var(--pyc);font-weight:700;font-size:16px;margin-top:2px}
+.row.ra{align-items:center}
+.row.ra>div:first-child{flex:1;min-width:0}
+.subs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.sub{font:700 14px var(--font);background:var(--card);color:var(--mute);border:2px solid transparent;border-radius:999px;padding:5px 14px;cursor:pointer}
+.sub small{font-weight:400;margin-left:4px}
+.sub[aria-pressed="true"]{background:#E8F0FE;color:var(--blue);border-color:var(--blue)}
+.cek{color:#B06000;font-weight:700}
+.ref{display:inline-block;font:700 13px var(--font);background:#ffffff;border-radius:999px;padding:3px 10px;color:var(--mute);margin-left:6px}
+.sbtn{font:700 14px var(--font);color:#ffffff;border:3px solid transparent;border-radius:999px;padding:5px 12px;cursor:pointer;background:var(--blue)}
+.sbtn.g{background:var(--grn)}
+.sbtn[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px #ffffff inset}
+.sbtn small{font-weight:400;opacity:.9;margin-left:4px}
+.qt.ar{font-size:40px;line-height:1.7;margin:6px 0 0}
+.opt.ap .t{display:flex;flex-direction:column}
+.opt .oa{font:400 28px/1.7 var(--hz);direction:rtl;text-align:right;color:var(--ink)}
+.opt.ar-o .t{width:100%}
+.opt.ok .oa{color:var(--ok)}.opt.no .oa{color:var(--err)}
+.foot{max-width:860px;margin:0 auto;padding:8px 20px 40px;color:var(--mute);font-size:13px;line-height:1.5}
+.foot a{color:var(--link)}
+.gs p{font-size:15px;margin:6px 0}
+.gs ul{margin:6px 0 6px 18px;padding:0;font-size:15px}
+.gs code{background:rgba(241,243,244,.9);border-radius:6px;padding:1px 6px}
+</style>
+</head>
+<body>
+<header class="hd"><h1>Kamus Arab Al-Quran</h1></header>
+<div class="wrap">
+<div class="tabs" role="tablist">
+<button class="tab" role="tab" id="t1" aria-selected="true" aria-controls="p1">Kamus</button>
+<button class="tab" role="tab" id="t2" aria-selected="false" aria-controls="p2">Latihan</button>
+<button class="tab" id="tc" type="button" aria-expanded="false" aria-controls="cats">Semua surah ▾</button>
+<button class="tab" type="button" id="t3" aria-haspopup="dialog" aria-expanded="false" aria-label="Panduan dan sumber data" title="Panduan dan sumber data"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></button>
+</div>
+<div class="cats" id="cats" role="group" aria-label="Pilih surah" hidden></div>
+<section id="p1" role="tabpanel" aria-labelledby="t1">
+<div class="bar">
+<input id="q" type="search" placeholder="Cari: Indonesia, transliterasi, atau Arab (tanpa harakat juga bisa)…" autocomplete="off">
+<div class="subs" id="subs" role="group" aria-label="Jenis entri"></div>
+<div id="info"></div>
+</div>
+<div id="list"></div>
+</section>
+<section id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+<div class="modes" id="modes" role="group" aria-label="Jenis latihan"></div>
+<div class="score"><span id="sc"></span><button class="lnk" id="rs" type="button">Sesi baru</button></div>
+<div class="pg"><div id="pgf"></div></div>
+<div class="card" id="quiz"></div>
+</section>
+</div>
+<div class="foot">Teks Arab: <a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil Project (tanzil.net)</a>, tanpa perubahan pada teksnya. Terjemah ayat: Kementerian Agama RI melalui Tanzil. Arti per kata: SadaqaWorks/Word-By-Word-Quran-Android (MIT) dengan penyesuaian. Transliterasi dibuat mesin dan belum ditinjau pembaca Al-Quran yang kompeten.</div>
+<div class="pm" id="pm" role="dialog" aria-modal="true" aria-labelledby="pmt" hidden>
+<div class="pmc"><div class="pmh"><h2 id="pmt">Panduan dan sumber data</h2><button type="button" id="pmx" aria-label="Tutup">✕</button></div><div class="pmb" id="pmb"></div></div>
+</div>
+<script>
+(function(){
+var SURAH=[];
+var P={},D={kata:null,ayat:null,klausa:null},mode="kata",surah=0;
+var SUBN={kata:"Kata",ayat:"Ayat",klausa:"Klausa"};
+function $(i){return document.getElementById(i)}
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function norm(s){
+  return String(s==null?"":s).normalize("NFD")
+    .replace(/[ً-ٰٟۖ-ۭـ]/g,"").replace(/[̀-ͯ]/g,"")
+    .replace(/[آأإٱ]/g,"ا").replace(/ى/g,"ي").replace(/ة/g,"ه")
+    .replace(/[ʿʼ'’`\-]/g,"").toLowerCase();
+}
+function toast(m){var t=$("toast");if(!t){t=document.createElement("div");t.id="toast";t.setAttribute("role","status");t.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#202124;color:#fff;padding:10px 16px;border-radius:12px;font:700 14px Calibri,Arial,sans-serif;z-index:99;max-width:90%;text-align:center";document.body.appendChild(t)}t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(function(){t.style.display="none"},4000)}
+function load(name){
+  if(!P[name])P[name]=fetch((name==="kata"?"data":name)+".json").then(function(r){if(!r.ok)throw new Error(r.status);return r.json()}).then(function(j){
+    var rows=j.rows;rows.forEach(function(o){o.hay=norm([o.i||o.id,o.t||o.tl,o.a||o.ar,o.r||""].join(" "))});D[name]=rows;return rows});
+  return P[name];
+}
+/* data: kata {s,i,t,a,f,r,x,e,n,c}  ayat {s,n,ar,tl,id,d}  klausa {s,r,k,ar,tl,id} */
+/* suara (Web Speech API, ar-SA) */
+var SYN=window.speechSynthesis;
+function speak(text,btn){
+  if(!SYN){toast("Browser ini tidak mendukung suara");return}
+  Array.prototype.forEach.call(document.querySelectorAll(".sp.on"),function(x){x.classList.remove("on")});
+  try{SYN.cancel()}catch(x){}
+  var u=new SpeechSynthesisUtterance(text);u.lang="ar-SA";u.rate=.8;
+  var vs=[];try{vs=(SYN.getVoices()||[]).filter(function(v){return /^ar/i.test(v.lang)})}catch(x){}
+  if(vs.length)u.voice=vs[0];
+  u.onstart=function(){if(btn)btn.classList.add("on")};
+  u.onend=function(){if(btn)btn.classList.remove("on")};
+  u.onerror=function(e){if(btn)btn.classList.remove("on");if(e&&e.error!=="canceled"&&e.error!=="interrupted")toast("Suara Arab tidak tersedia di perangkat ini")};
+  try{SYN.resume()}catch(x){}
+  SYN.speak(u);
+}
+function spBtn(text){
+  if(!SYN)return null;
+  var b=el("button","sp");b.type="button";b.setAttribute("aria-label","Dengarkan");
+  b.innerHTML='<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+  b.onclick=function(e){e.stopPropagation();speak(text,b)};
+  return b;
+}
+function copy(text,btn){
+  function done(){var t=btn.textContent;btn.textContent="Tersalin";btn.classList.add("ok");setTimeout(function(){btn.textContent=t;btn.classList.remove("ok")},1200)}
+  function fb(){var a=document.createElement("textarea");a.value=text;a.style.position="fixed";a.style.opacity="0";document.body.appendChild(a);a.select();try{document.execCommand("copy");done()}catch(e){}document.body.removeChild(a)}
+  if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fb)}else fb();
+}
+function sname(s){var o=SURAH[s-1];return o?o.n+". "+o.name:String(s)}
+function scol(s){var o=SURAH[s-1];return o&&/madin/i.test(o.type)?"g":"b"}
+
+/* tabs */
+[["t1","p1"],["t2","p2"]].forEach(function(p){
+  $(p[0]).onclick=function(){
+    [["t1","p1"],["t2","p2"]].forEach(function(x){var on=x[0]===p[0];$(x[0]).setAttribute("aria-selected",on);$(x[1]).hidden=!on});
+    if(p[0]==="t2")ensureQuiz();
+  };
+});
+
+/* kamus */
+function arRow(text,cls,tl){
+  var r=el("div","row ra"),b=el("div");
+  b.appendChild(el("div","ar "+(cls||""),text));
+  if(tl)b.appendChild(el("div","tl",tl));
+  r.appendChild(b);
+  var c=el("button","cp","Salin");c.type="button";c.setAttribute("aria-label","Salin teks Arab");c.onclick=function(){copy(text,c)};
+  var sb=spBtn(text),w=el("div","bt");if(sb)w.appendChild(sb);w.appendChild(c);r.appendChild(w);
+  return r;
+}
+function exBox(refs){
+  var box=el("div","exs");box.appendChild(el("div","exh","Contoh ayat"));
+  load("ayat").then(function(A){
+    if(!A.byRef){A.byRef={};A.forEach(function(a){A.byRef[a.s+":"+a.n]=a})}
+    refs.forEach(function(r){var a=A.byRef[r];if(!a)return;
+      var it=el("div","ex");
+      it.appendChild(el("span","ref",sname(a.s).split(". ")[1]+" "+r));
+      var zr=el("div","exr"),z=el("div","ar sm",a.ar);zr.appendChild(z);var eb=spBtn(a.ar);if(eb)zr.appendChild(eb);it.appendChild(zr);
+      it.appendChild(el("div","ex-py",a.tl));it.appendChild(el("div","ex-id",a.id));box.appendChild(it)});
+  });
+  box.hidden=true;return box;
+}
+function cardKata(o){
+  var k=scol(o.s),c=el("div","card c"+k);
+  c.appendChild(el("div","lb "+k,sname(o.s)));
+  c.appendChild(arRow(o.a,"",o.t));
+  var idr=el("div","row"),b=el("div");b.appendChild(el("div","id",o.i||"(belum ada arti)"));idr.appendChild(b);c.appendChild(idr);
+  var m=el("div","meta");m.textContent="Muncul "+o.f+"× · pertama di "+o.r;c.appendChild(m);
+  if(o.x){c.appendChild(el("div","meta","Arti lain: "+o.x))}
+  if(o.c){c.appendChild(el("div","meta cek","Arti ini perlu dicek."))}
+  if(o.n){c.appendChild(el("div","meta",o.n))}
+  if(o.e&&o.e.length){
+    var box=exBox(o.e);c.appendChild(box);
+    var idEl=idr.querySelector(".id");idEl.classList.add("tog");idEl.setAttribute("role","button");idEl.setAttribute("tabindex","0");idEl.setAttribute("aria-expanded","false");
+    var flip=function(){box.hidden=!box.hidden;idEl.classList.toggle("open",!box.hidden);idEl.setAttribute("aria-expanded",String(!box.hidden))};
+    idEl.onclick=flip;idEl.onkeydown=function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();flip()}};
+  }
+  return c;
+}
+function cardAyat(o){
+  var k=scol(o.s),c=el("div","card c"+k);
+  c.appendChild(el("div","lb "+k,sname(o.s)+" : "+o.n));
+  c.appendChild(arRow(o.ar,"sm",o.tl));
+  var r=el("div","row"),b=el("div");b.appendChild(el("div","id",o.id));r.appendChild(b);c.appendChild(r);
+  if(o.d)c.appendChild(el("div","meta","Ayat yang sama juga ada di: "+o.d));
+  return c;
+}
+function cardKlausa(o){
+  var k=scol(o.s),c=el("div","card c"+k);
+  c.appendChild(el("div","lb "+k,sname(o.s)+" : "+o.r+" · klausa "+o.k));
+  c.appendChild(arRow(o.ar,"sm",o.tl));
+  var r=el("div","row"),b=el("div");b.appendChild(el("div","id",o.id));r.appendChild(b);c.appendChild(r);
+  c.appendChild(el("div","meta","Arti dari gabungan arti per kata (terjemah resmi hanya per ayat)."));
+  return c;
+}
+var CARD={kata:cardKata,ayat:cardAyat,klausa:cardKlausa};
+function render(){
+  var rows=D[mode];
+  if(!rows){$("info").textContent="Memuat data…";$("list").textContent="";load(mode).then(render,function(){$("info").textContent="";$("list").textContent="";$("list").appendChild(el("div","empty","Data gagal dimuat. Buka lewat GitHub Pages atau server lokal (bukan file langsung)."))});return}
+  var toks=norm($("q").value).split(/\s+/).filter(Boolean);
+  var pool=surah?rows.filter(function(o){return o.s===surah}):rows;
+  var res=pool.filter(function(o){return toks.every(function(t){return o.hay.indexOf(t)>-1})});
+  $("info").textContent=res.length+" dari "+pool.length+" "+SUBN[mode].toLowerCase()+(surah?" · "+sname(surah):"");
+  var L=$("list");L.textContent="";
+  if(!res.length){L.appendChild(el("div","empty","Tidak ada hasil. Coba kata kunci lain."));return}
+  var frag=document.createDocumentFragment();
+  res.slice(0,100).forEach(function(o){frag.appendChild(CARD[mode](o))});
+  L.appendChild(frag);
+  if(res.length>100)L.appendChild(el("div","empty","Menampilkan 100 pertama. Persempit pencarian untuk hasil lain."));
+}
+var qt;$("q").addEventListener("input",function(){clearTimeout(qt);qt=setTimeout(render,120)});
+function totals(){return SURAH.reduce(function(a,s){a.kata+=s.kata;a.ayat+=s.ayat;a.klausa+=s.klausa;return a},{kata:0,ayat:0,klausa:0})}
+(function(){
+  var box=$("subs"),T=totals();
+  Object.keys(SUBN).forEach(function(k){
+    var b=el("button","sub");b.type="button";b.dataset.m=k;b.setAttribute("aria-pressed",String(k===mode));
+    b.appendChild(document.createTextNode(SUBN[k]));b.appendChild(el("small",null,String(surah?"":T[k])));
+    b.onclick=function(){mode=k;Array.prototype.forEach.call(box.children,function(x){x.setAttribute("aria-pressed",String(x.dataset.m===mode))});render()};
+    box.appendChild(b);
+  });
+})();
+/* pilih surah */
+function setSurah(n){
+  surah=n;
+  Array.prototype.forEach.call($("cats").children,function(x){x.setAttribute("aria-pressed",String(+x.dataset.s===surah))});
+  $("tc").textContent=(surah?sname(surah):"Semua surah")+" ▾";$("tc").classList.toggle("on",!!surah);
+  $("cats").hidden=true;$("tc").setAttribute("aria-expanded","false");
+  var T=totals();Array.prototype.forEach.call($("subs").children,function(x){x.lastChild.textContent=String(surah?SURAH[surah-1][x.dataset.m]:T[x.dataset.m])});
+  render();newSession();
+}
+(function(){
+  var box=$("cats"),all=el("button","sbtn");all.type="button";all.dataset.s="0";all.setAttribute("aria-pressed","true");all.textContent="Semua";all.onclick=function(){setSurah(0)};box.appendChild(all);
+  SURAH.forEach(function(s){
+    var b=el("button","sbtn "+scol(s.n));b.type="button";b.dataset.s=String(s.n);b.setAttribute("aria-pressed","false");
+    b.title=s.name+" ("+s.arti+") · "+s.type+" · "+s.ayat_mushaf+" ayat";
+    b.appendChild(document.createTextNode(s.n+" "+s.name));b.onclick=function(){setSurah(s.n)};box.appendChild(b);
+  });
+})();
+$("tc").onclick=function(){var h=$("cats").hidden;$("cats").hidden=!h;$("tc").setAttribute("aria-expanded",String(h))};
+$("q").addEventListener("keydown",function(e){if(e.key==="Escape"){$("q").value="";render()}});
+render();
+
+/* latihan */
+var SES=10,deck=[],st={ok:0,all:0},qmode="a",ready=false;
+var MODES={
+  a:{t:"A",d:"Indonesia → Arab & Transliterasi",ask:"Pilih bacaan Arab yang tepat untuk:"},
+  b:{t:"B",d:"Arab → Indonesia",ask:"Apa arti dalam bahasa Indonesia?"},
+  c:{t:"C",d:"Transliterasi → Arab",ask:"Pilih tulisan Arab yang tepat untuk:"}
+};
+var ALL=[];
+function same(a,b){return norm(a).replace(/\s+/g,"")===norm(b).replace(/\s+/g,"")}
+function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
+function pool(){return surah?ALL.filter(function(o){return o.s===surah}):ALL}
+function nextItem(){if(!deck.length)deck=shuf(pool());return deck.pop()}
+function score(n){$("sc").textContent=(n>SES?"Sesi selesai":"Soal "+n+" dari "+SES)+" · Benar "+st.ok+(surah?" · "+sname(surah):"");$("pgf").style.width=Math.min(st.all,SES)/SES*100+"%"}
+function ensureQuiz(){
+  if(ready){return}
+  $("quiz").textContent="Memuat soal…";
+  load("kata").then(function(rows){ALL=rows.filter(function(o){return o.i&&o.a&&o.t});ready=true;newSession()},function(){$("quiz").textContent="Data gagal dimuat. Buka lewat GitHub Pages atau server lokal."});
+}
+function newSession(){st={ok:0,all:0};deck=[];if(ready)ask()}
+function setMode(m){
+  qmode=m;Array.prototype.forEach.call(document.querySelectorAll(".mode"),function(b){b.setAttribute("aria-pressed",b.dataset.m===m)});newSession();
+}
+(function(){
+  var box=$("modes");
+  Object.keys(MODES).forEach(function(k){
+    var b=el("button","mode");b.type="button";b.dataset.m=k;b.setAttribute("aria-pressed",k===qmode);
+    b.appendChild(el("b",null,MODES[k].t));b.appendChild(el("span",null,MODES[k].d));
+    b.onclick=function(){setMode(k)};box.appendChild(b);
+  });
+})();
+function letters(s){var o={};norm(s).replace(/[ء-ي]/g,function(c){o[c]=1});return o}
+function jac(a,b){var i=0,u=0,k;for(k in a){u++;if(b[k])i++}for(k in b)if(!a[k])u++;return u?i/u:0}
+function wtoks(s){var o={};norm(s).split(/[^a-z0-9]+/).forEach(function(w){if(w.length>2)o[w]=1});return o}
+function sim(q,d){
+  var s=jac(letters(q.a),letters(d.a))*5+jac(wtoks(q.i),wtoks(d.i))*3;
+  s+=Math.max(0,1-Math.abs(q.a.length-d.a.length)/8);
+  if(d.s===q.s)s+=.5;
+  return s+Math.random()*.8;
+}
+function pickOpts(q){
+  var cand=shuf(ALL).slice(0,1500).filter(function(d){return d!==q&&!same(d.i,q.i)&&norm(d.a)!==norm(q.a)&&d.t!==q.t});
+  var ranked=cand.map(function(d){return[sim(q,d),d]}).sort(function(a,b){return b[0]-a[0]}).slice(0,10).map(function(x){return x[1]});
+  ranked=shuf(ranked.slice(0,8));
+  var opts=[q],seen=[q];
+  for(var i=0;i<ranked.length&&opts.length<4;i++){
+    var c=ranked[i];if(seen.some(function(s){return same(s.i,c.i)||norm(s.a)===norm(c.a)}))continue;opts.push(c);seen.push(c);
+  }
+  return shuf(opts);
+}
+function summary(){
+  var box=$("quiz");box.textContent="";box._pick=null;score(SES+1);
+  box.appendChild(el("div","ask","Sesi selesai"));
+  box.appendChild(el("p","qt id","Benar "+st.ok+" dari "+SES+" ("+Math.round(st.ok/SES*100)+"%)"));
+  var n=el("button","next","Mulai sesi baru");n.type="button";n.onclick=newSession;box.appendChild(n);n.focus();
+}
+function ask(){
+  var box=$("quiz");
+  if(!pool().length){box.textContent="";box._pick=null;box.appendChild(el("div","empty","Surah ini tidak punya kata baru untuk dilatih. Pilih surah lain atau Semua surah."));$("sc").textContent="";return}
+  if(st.all>=SES){summary();return}
+  score(st.all+1);
+  var q=nextItem(),M=MODES[qmode];box.textContent="";
+  box.appendChild(el("div","ask",M.ask));
+  if(qmode==="a"){box.appendChild(el("p","qt id",q.i))}
+  else if(qmode==="b"){var qh=el("div","rh");qh.appendChild(el("p","qt ar",q.a));var qb=spBtn(q.a);if(qb)qh.appendChild(qb);box.appendChild(qh);box.appendChild(el("p","qt tl",q.t))}
+  else{box.appendChild(el("p","qt tl",q.t))}
+  var opts=pickOpts(q),wrap=el("div","opts"),btns=[],done=false,res=el("div","res");
+  opts.forEach(function(o,i){
+    var b=el("button","opt "+(qmode==="b"?"id":"ap ar-o"));b.type="button";
+    b.appendChild(el("span","k",String(i+1)));
+    var t=el("span","t");
+    if(qmode==="b")t.textContent=o.i;
+    else{t.appendChild(el("span","oa",o.a));if(qmode==="a")t.appendChild(el("span","oy tl",o.t))}
+    b.appendChild(t);b.onclick=function(){pick(i)};btns.push(b);wrap.appendChild(b);
+  });
+  function pick(i){
+    if(done)return;done=true;st.all++;
+    var good=opts[i]===q;if(good)st.ok++;
+    btns.forEach(function(b,k){b.disabled=true;if(opts[k]===q)b.classList.add("ok");else if(k===i)b.classList.add("no");if(qmode!=="b")b.appendChild(el("span","oi",opts[k].i))});
+    res.appendChild(el("div","v",good?"Benar.":"Belum tepat."));
+    var rh=el("div","rh");rh.appendChild(el("div","ar sm",q.a));var rb=spBtn(q.a);if(rb)rh.appendChild(rb);res.appendChild(rh);
+    res.appendChild(el("div","tl",q.t));res.appendChild(el("div","id",q.i));
+    res.appendChild(el("div","meta","Muncul "+q.f+"× · pertama di "+sname(q.s)+" "+q.r));
+    var n=el("button","next",st.all>=SES?"Lihat hasil":"Soal berikutnya");n.type="button";n.onclick=ask;res.appendChild(n);
+    score(st.all);n.focus();
+  }
+  box.appendChild(wrap);box.appendChild(res);box._pick=pick;
+}
+document.addEventListener("keydown",function(e){
+  if($("p2").hidden||e.ctrlKey||e.metaKey||e.altKey)return;
+  var n=parseInt(e.key,10);if(n>=1&&n<=4&&$("quiz")._pick)$("quiz")._pick(n-1);
+});
+$("rs").onclick=newSession;
+
+/* panduan */
+(function(){
+  var m=$("pm"),body=$("pmb");
+  var g=el("div","gs");
+  g.appendChild(el("h2","","Cara baca transliterasi"));
+  var ul=el("ul");
+  ["ā ī ū = vokal panjang (a, i, u dibaca lebih panjang)","' = hamzah (berhenti sejenak), ʿ = 'ain (suara dari kerongkongan)",
+   "sy = ش, kh = خ, dz = ذ, ts = ث, sh = ص, dh = ض, th = ط, zh = ظ, gh = غ, q = ق",
+   "al-kitābu: ال sebelum huruf bulan dibaca al-; asy-syams: ال melebur sebelum huruf matahari",
+   "-un -in -an di akhir kata = tanwin (bunyi n)"].forEach(function(t){ul.appendChild(el("li",null,t))});
+  g.appendChild(ul);
+  g.appendChild(el("p",null,"Transliterasi dibuat otomatis per kata dari harakat dan belum ditinjau pembaca Al-Quran yang kompeten. Hukum bacaan antar kata (idgham, iqlab, ikhfa, wasal) tidak dicerminkan."));
+  body.appendChild(g);
+  var s=el("div","gs");s.appendChild(el("h2","","Sumber data"));
+  var ul2=el("ul");
+  ["Teks Arab: Tanzil Project (tanzil.net), tidak diubah.","Terjemah ayat: Kementerian Agama RI (edisi 2010) melalui Tanzil.",
+   "Arti per kata: SadaqaWorks/Word-By-Word-Quran-Android (MIT), dipetakan ke kata Tanzil. Entri bertanda \"perlu dicek\" belum diverifikasi.",
+   "Dedup: kata dan ayat yang sudah muncul di surah sebelumnya tidak ditulis lagi. Surah dipakai sebagai kategori."].forEach(function(t){ul2.appendChild(el("li",null,t))});
+  s.appendChild(ul2);body.appendChild(s);
+  function open(){m.hidden=false;$("t3").setAttribute("aria-expanded","true");body.scrollTop=0;$("pmx").focus()}
+  function close(){m.hidden=true;$("t3").setAttribute("aria-expanded","false");$("t3").focus()}
+  $("t3").onclick=function(e){e.preventDefault();open()};$("pmx").onclick=close;
+  m.onclick=function(e){if(e.target===m)close()};
+  document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden)close()});
+})();
+if(location.hash==="#latihan")$("t2").click();
+})();
+</script>
+</body>
+</html>
