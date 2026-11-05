@@ -7,7 +7,7 @@ Input : Arabic word list/Kosakata_Arab.xlsx
           - sheet "Klausa"   : ayat dipecah per klausa (di tanda waqaf), klausa unik
           - sheet "Surah"    : 114 surah (nama, tempat turun, jumlah)
           - sheet "Progress" : rekap hafalan di Excel (tidak dipakai website)
-Output: docs/index.html (kamus + latihan), docs/deck.html (Belajar Surah: latihan per surah/bagian),
+Output: docs/index.html (kamus), docs/deck.html (Belajar Surah: kuis per surah/bagian),
         docs/data.json (kata), docs/ayat.json, docs/klausa.json
 
 Kolom dicari berdasarkan nama header, bukan posisi. Kolom Status dan Catatan edit hanya untuk Excel.

@@ -10,9 +10,8 @@ Kamus kosakata Al-Quran (Arab – transliterasi – Indonesia), dibagi per 114 s
   - **Kata** (18.242): setiap bentuk kata (dengan harakat) hanya ditulis sekali, di surah tempat ia **pertama kali muncul**. Klik arti Indonesia untuk melihat 3 contoh ayat.
   - **Ayat** (6.059): ayat dengan teks Arab persis sama yang sudah muncul sebelumnya tidak ditulis lagi (ayat yang sama ditulis di kolom "Juga muncul di").
   - **Klausa** (9.655): ayat dipecah di tanda waqaf kecil (ۖ ۗ ۚ ۛ dst.); klausa yang sama tidak ditulis lagi. Artinya adalah gabungan arti per kata (terjemah resmi hanya tersedia per ayat).
-- **Surah** (tombol "Semua surah ▾"): memilih satu dari 114 surah. Kamus dan Latihan mengikuti surah yang dipilih (kata baru di surah itu).
-- **Latihan** (tab): kuis 10 soal, 3 jenis. **A:** Indonesia → Arab. **B:** Arab → Indonesia. **C:** Transliterasi → Arab. Pilihan jawaban dipilih yang mirip huruf dan artinya.
-- **Belajar Surah** (`deck.html`, tab di sebelah "Latihan"; padanan "30H Belajar" di repo Mandarin): pilih salah satu dari 114 surah (biru = Makkiyah, hijau = Madaniyah), lalu pilih **bagian**. Satu bagian berisi maksimal 20 kata baru surah itu, urut kemunculan di mushaf (Al-Baqarah punya 2.627 kata baru, jadi 132 bagian). Setiap kata diuji satu kali, Indonesia → Arab (pilihan jawaban hanya tulisan Arab; transliterasi baru tampil setelah menjawab), dengan pilihan jawaban hanya dari bagian yang sama. Kotak pilihan surah dan bagian disembunyikan secara bawaan; buka/tutup dengan tombol **Pilih surah / bagian**. Setelah menjawab ada tombol **Contoh ayat**, soal bisa digeser kiri/kanan, dan di akhir ada "Ulangi bagian ini" serta "Bagian/Surah berikutnya". Posisi terakhir diingat di browser.
+- **Surah** (tombol "Semua surah ▾"): memilih satu dari 114 surah. Kamus mengikuti surah yang dipilih (kata baru di surah itu).
+- **Belajar Surah** (`deck.html`, tab di sebelah "Kamus"; padanan "30H Belajar" di repo Mandarin): pilih salah satu dari 114 surah (biru = Makkiyah, hijau = Madaniyah), lalu pilih **bagian**. Satu bagian berisi maksimal 20 kata baru surah itu, urut kemunculan di mushaf (Al-Baqarah punya 2.627 kata baru, jadi 132 bagian). Setiap kata diuji satu kali, Indonesia → Arab (pilihan jawaban hanya tulisan Arab; transliterasi baru tampil setelah menjawab), dengan pilihan jawaban hanya dari bagian yang sama. Kotak pilihan surah dan bagian disembunyikan secara bawaan; buka/tutup dengan tombol **Pilih surah / bagian**. Setelah menjawab ada tombol **Contoh ayat**, soal bisa digeser kiri/kanan, dan di akhir ada "Ulangi bagian ini" serta "Bagian/Surah berikutnya". Posisi terakhir diingat di browser.
 - **Suara**: tombol speaker memakai suara bawaan browser (Web Speech API, `ar-SA`). Belum ada file audio di versi 1.
 
 ## Aturan dedup (urutan mushaf, surah 1 → 114)
@@ -53,15 +52,15 @@ Kolom penting sheet `Kosakata`: `No Surah`, `Indonesia`, `Transliterasi`, `Arab`
 ├── README.md
 ├── .github/workflows/build.yml     ← GitHub Action: build otomatis saat isi folder "Arabic word list" berubah
 ├── docs/                           ← hasil build (jangan diedit manual)
-│   ├── index.html                  ← kamus + latihan
-│   ├── deck.html                   ← Belajar Surah (latihan per surah/bagian)
+│   ├── index.html                  ← kamus
+│   ├── deck.html                   ← Belajar Surah (kuis per surah/bagian)
 │   ├── data.json                   ← kata
 │   ├── ayat.json                   ← ayat unik
 │   └── klausa.json                 ← klausa unik
 └── Arabic word list/
     ├── Kosakata_Arab.xlsx          ← sumber data (edit file ini)
     ├── build.py                    ← program: Excel → website
-    ├── template.html               ← kerangka halaman kamus + latihan
+    ├── template.html               ← kerangka halaman kamus
     ├── deck_template.html          ← kerangka halaman Belajar Surah (CSS-nya mengikuti template.html)
     ├── sumber/                     ← salinan asli sumber teks (Tanzil), jangan diubah
     │   ├── quran-simple.txt
@@ -119,5 +118,5 @@ Daftar kata, ayat, dan klausa di sini adalah **turunan** dari teks Tanzil (disar
 - Repo ini publik agar GitHub Pages gratis.
 - Proyek belajar pribadi. Untuk menyebarkan teks Al-Quran di Indonesia secara luas, perlu dicek ketentuan tashih Lajnah Pentashihan Mushaf Al-Qur'an (Kemenag), yang terpisah dari urusan hak cipta.
 - Jangan mengedit `docs/` secara manual; file itu ditimpa setiap build.
-- Untuk mengubah tampilan kamus dan latihan, edit `template.html`; untuk Belajar Surah, edit `deck_template.html`. Tombol menu ("Kamus", "Latihan", "Belajar Surah") ada di kedua file, jadi ubah keduanya bila menu berubah. Ukuran bagian diatur lewat `var PART=20;` di `deck_template.html`.
+- Untuk mengubah tampilan kamus, edit `template.html`; untuk Belajar Surah, edit `deck_template.html`. Tombol menu ("Kamus", "Belajar Surah") ada di kedua file, jadi ubah keduanya bila menu berubah. Ukuran bagian diatur lewat `var PART=20;` di `deck_template.html`.
 - Riwayat perubahan Excel tersimpan di git.

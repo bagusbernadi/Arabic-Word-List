@@ -173,7 +173,6 @@ a.tab{text-decoration:none;display:inline-block}
 <div class="wrap">
 <div class="tabs" role="tablist">
 <button class="tab" role="tab" id="t1" aria-selected="true" aria-controls="p1">Kamus</button>
-<button class="tab" role="tab" id="t2" aria-selected="false" aria-controls="p2">Latihan</button>
 <a class="tab" href="deck.html">Belajar Surah</a>
 <button class="tab" id="tc" type="button" aria-expanded="false" aria-controls="cats">Semua surah ▾</button>
 <button class="tab" type="button" id="t3" aria-haspopup="dialog" aria-expanded="false" aria-label="Panduan dan sumber data" title="Panduan dan sumber data"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg></button>
@@ -186,12 +185,6 @@ a.tab{text-decoration:none;display:inline-block}
 <div id="info"></div>
 </div>
 <div id="list"></div>
-</section>
-<section id="p2" role="tabpanel" aria-labelledby="t2" hidden>
-<div class="modes" id="modes" role="group" aria-label="Jenis latihan"></div>
-<div class="score"><span id="sc"></span><button class="lnk" id="rs" type="button">Sesi baru</button></div>
-<div class="pg"><div id="pgf"></div></div>
-<div class="card" id="quiz"></div>
 </section>
 </div>
 <div class="foot">Teks Arab: <a href="https://tanzil.net" target="_blank" rel="noopener">Tanzil Project (tanzil.net)</a>, tanpa perubahan pada teksnya. Terjemah ayat: Kementerian Agama RI melalui Tanzil. Arti per kata: SadaqaWorks/Word-By-Word-Quran-Android (MIT) dengan penyesuaian. Transliterasi dibuat mesin dan belum ditinjau pembaca Al-Quran yang kompeten.</div>
@@ -248,15 +241,7 @@ function copy(text,btn){
 function sname(s){var o=SURAH[s-1];return o?o.n+". "+o.name:String(s)}
 function scol(s){var o=SURAH[s-1];return o&&/madin/i.test(o.type)?"g":"b"}
 
-/* tabs */
-[["t1","p1"],["t2","p2"]].forEach(function(p){
-  $(p[0]).onclick=function(){
-    [["t1","p1"],["t2","p2"]].forEach(function(x){var on=x[0]===p[0];$(x[0]).setAttribute("aria-selected",on);$(x[1]).hidden=!on});
-    if(p[0]==="t2")ensureQuiz();
-  };
-});
 
-/* kamus */
 function arRow(text,cls,tl){
   var r=el("div","row ra"),b=el("div");
   b.appendChild(el("div","ar "+(cls||""),text));
@@ -344,7 +329,7 @@ function setSurah(n){
   $("tc").textContent=(surah?sname(surah):"Semua surah")+" ▾";$("tc").classList.toggle("on",!!surah);
   $("cats").hidden=true;$("tc").setAttribute("aria-expanded","false");
   var T=totals();Array.prototype.forEach.call($("subs").children,function(x){x.lastChild.textContent=String(surah?SURAH[surah-1][x.dataset.m]:T[x.dataset.m])});
-  render();newSession();
+  render();
 }
 (function(){
   var box=$("cats"),all=el("button","sbtn");all.type="button";all.dataset.s="0";all.setAttribute("aria-pressed","true");all.textContent="Semua";all.onclick=function(){setSurah(0)};box.appendChild(all);
@@ -358,98 +343,6 @@ $("tc").onclick=function(){var h=$("cats").hidden;$("cats").hidden=!h;$("tc").se
 $("q").addEventListener("keydown",function(e){if(e.key==="Escape"){$("q").value="";render()}});
 render();
 
-/* latihan */
-var SES=10,deck=[],st={ok:0,all:0},qmode="a",ready=false;
-var MODES={
-  a:{t:"A",d:"Indonesia → Arab",ask:"Pilih tulisan Arab yang tepat untuk:"},
-  b:{t:"B",d:"Arab → Indonesia",ask:"Apa arti dalam bahasa Indonesia?"},
-  c:{t:"C",d:"Transliterasi → Arab",ask:"Pilih tulisan Arab yang tepat untuk:"}
-};
-var ALL=[];
-function same(a,b){return norm(a).replace(/\s+/g,"")===norm(b).replace(/\s+/g,"")}
-function shuf(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=a[i];a[i]=a[j];a[j]=t}return a}
-function pool(){return surah?ALL.filter(function(o){return o.s===surah}):ALL}
-function nextItem(){if(!deck.length)deck=shuf(pool());return deck.pop()}
-function score(n){$("sc").textContent=(n>SES?"Sesi selesai":"Soal "+n+" dari "+SES)+" · Benar "+st.ok+(surah?" · "+sname(surah):"");$("pgf").style.width=Math.min(st.all,SES)/SES*100+"%"}
-function ensureQuiz(){
-  if(ready){return}
-  $("quiz").textContent="Memuat soal…";
-  load("kata").then(function(rows){ALL=rows.filter(function(o){return o.i&&o.a&&o.t});ready=true;newSession()},function(){$("quiz").textContent="Data gagal dimuat. Buka lewat GitHub Pages atau server lokal."});
-}
-function newSession(){st={ok:0,all:0};deck=[];if(ready)ask()}
-function setMode(m){
-  qmode=m;Array.prototype.forEach.call(document.querySelectorAll(".mode"),function(b){b.setAttribute("aria-pressed",b.dataset.m===m)});newSession();
-}
-(function(){
-  var box=$("modes");
-  Object.keys(MODES).forEach(function(k){
-    var b=el("button","mode");b.type="button";b.dataset.m=k;b.setAttribute("aria-pressed",k===qmode);
-    b.appendChild(el("b",null,MODES[k].t));b.appendChild(el("span",null,MODES[k].d));
-    b.onclick=function(){setMode(k)};box.appendChild(b);
-  });
-})();
-function letters(s){var o={};norm(s).replace(/[ء-ي]/g,function(c){o[c]=1});return o}
-function jac(a,b){var i=0,u=0,k;for(k in a){u++;if(b[k])i++}for(k in b)if(!a[k])u++;return u?i/u:0}
-function wtoks(s){var o={};norm(s).split(/[^a-z0-9]+/).forEach(function(w){if(w.length>2)o[w]=1});return o}
-function sim(q,d){
-  var s=jac(letters(q.a),letters(d.a))*5+jac(wtoks(q.i),wtoks(d.i))*3;
-  s+=Math.max(0,1-Math.abs(q.a.length-d.a.length)/8);
-  if(d.s===q.s)s+=.5;
-  return s+Math.random()*.8;
-}
-function pickOpts(q){
-  var cand=shuf(ALL).slice(0,1500).filter(function(d){return d!==q&&!same(d.i,q.i)&&norm(d.a)!==norm(q.a)&&d.t!==q.t});
-  var ranked=cand.map(function(d){return[sim(q,d),d]}).sort(function(a,b){return b[0]-a[0]}).slice(0,10).map(function(x){return x[1]});
-  ranked=shuf(ranked.slice(0,8));
-  var opts=[q],seen=[q];
-  for(var i=0;i<ranked.length&&opts.length<4;i++){
-    var c=ranked[i];if(seen.some(function(s){return same(s.i,c.i)||norm(s.a)===norm(c.a)}))continue;opts.push(c);seen.push(c);
-  }
-  return shuf(opts);
-}
-function summary(){
-  var box=$("quiz");box.textContent="";box._pick=null;score(SES+1);
-  box.appendChild(el("div","ask","Sesi selesai"));
-  box.appendChild(el("p","qt id","Benar "+st.ok+" dari "+SES+" ("+Math.round(st.ok/SES*100)+"%)"));
-  var n=el("button","next","Mulai sesi baru");n.type="button";n.onclick=newSession;box.appendChild(n);n.focus();
-}
-function ask(){
-  var box=$("quiz");
-  if(!pool().length){box.textContent="";box._pick=null;box.appendChild(el("div","empty","Surah ini tidak punya kata baru untuk dilatih. Pilih surah lain atau Semua surah."));$("sc").textContent="";return}
-  if(st.all>=SES){summary();return}
-  score(st.all+1);
-  var q=nextItem(),M=MODES[qmode];box.textContent="";
-  box.appendChild(el("div","ask",M.ask));
-  if(qmode==="a"){box.appendChild(el("p","qt id",q.i))}
-  else if(qmode==="b"){var qh=el("div","rh");qh.appendChild(el("p","qt ar",q.a));var qb=spBtn(q.a);if(qb)qh.appendChild(qb);box.appendChild(qh);box.appendChild(el("p","qt tl",q.t))}
-  else{box.appendChild(el("p","qt tl",q.t))}
-  var opts=pickOpts(q),wrap=el("div","opts"),btns=[],done=false,res=el("div","res");
-  opts.forEach(function(o,i){
-    var b=el("button","opt "+(qmode==="b"?"id":"ap ar-o"));b.type="button";
-    b.appendChild(el("span","k",String(i+1)));
-    var t=el("span","t");
-    if(qmode==="b")t.textContent=o.i;
-    else{t.appendChild(el("span","oa",o.a))}
-    b.appendChild(t);b.onclick=function(){pick(i)};btns.push(b);wrap.appendChild(b);
-  });
-  function pick(i){
-    if(done)return;done=true;st.all++;
-    var good=opts[i]===q;if(good)st.ok++;
-    btns.forEach(function(b,k){b.disabled=true;if(opts[k]===q)b.classList.add("ok");else if(k===i)b.classList.add("no");if(qmode!=="b")b.appendChild(el("span","oi",opts[k].i))});
-    res.appendChild(el("div","v",good?"Benar.":"Belum tepat."));
-    var rh=el("div","rh");rh.appendChild(el("div","ar sm",q.a));var rb=spBtn(q.a);if(rb)rh.appendChild(rb);res.appendChild(rh);
-    res.appendChild(el("div","tl",q.t));res.appendChild(el("div","id",q.i));
-    res.appendChild(el("div","meta","Muncul "+q.f+"× · pertama di "+sname(q.s)+" "+q.r));
-    var n=el("button","next",st.all>=SES?"Lihat hasil":"Soal berikutnya");n.type="button";n.onclick=ask;res.appendChild(n);
-    score(st.all);n.focus();
-  }
-  box.appendChild(wrap);box.appendChild(res);box._pick=pick;
-}
-document.addEventListener("keydown",function(e){
-  if($("p2").hidden||e.ctrlKey||e.metaKey||e.altKey)return;
-  var n=parseInt(e.key,10);if(n>=1&&n<=4&&$("quiz")._pick)$("quiz")._pick(n-1);
-});
-$("rs").onclick=newSession;
 
 /* panduan */
 (function(){
@@ -476,7 +369,6 @@ $("rs").onclick=newSession;
   m.onclick=function(e){if(e.target===m)close()};
   document.addEventListener("keydown",function(e){if(e.key==="Escape"&&!m.hidden)close()});
 })();
-if(location.hash==="#latihan")$("t2").click();
 })();
 </script>
 </body>
