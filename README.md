@@ -11,6 +11,7 @@ Kamus kosakata Al-Quran (Arab – transliterasi – Indonesia), dibagi per 114 s
   - **Ayat** (6.059): ayat dengan teks Arab persis sama yang sudah muncul sebelumnya tidak ditulis lagi (ayat yang sama ditulis di kolom "Juga muncul di").
   - **Klausa** (9.655): ayat dipecah di tanda waqaf kecil (ۖ ۗ ۚ ۛ dst.); klausa yang sama tidak ditulis lagi. Artinya adalah gabungan arti per kata (terjemah resmi hanya tersedia per ayat).
 - **Surah** (tombol "Semua surah ▾"): memilih satu dari 114 surah. Kamus mengikuti surah yang dipilih (kata baru di surah itu).
+- **Huruf Hijaiyah** (`hijaiyah.html`, tab di sebelah kanan "Kamus"): pilih satu dari 28 huruf, lalu ketuk bentuk bunyinya untuk mendengar bacaan: fathah, kasrah, dhammah; tanwin (fathatain, kasratain, dhammatain); sukun dan syaddah; mad (alif, ya, wau). Ada nama huruf dan satu contoh kata per huruf, serta tombol "Putar semua". Suara memakai Web Speech API (`ar-SA`), tanpa file audio. Data huruf ada langsung di `hijaiyah_template.html` (bukan dari Excel).
 - **Belajar Surah** (`deck.html`, tab di sebelah "Kamus"; padanan "30H Belajar" di repo Mandarin): pilih salah satu dari 114 surah (biru = Makkiyah, hijau = Madaniyah), lalu pilih **bagian**. Satu bagian berisi maksimal 20 kata baru surah itu, urut kemunculan di mushaf (Al-Baqarah punya 2.627 kata baru, jadi 132 bagian). Setiap kata diuji satu kali, Indonesia → Arab (pilihan jawaban hanya tulisan Arab; transliterasi baru tampil setelah menjawab), dengan pilihan jawaban hanya dari bagian yang sama. Pilihan surah dan bagian memakai bar yang sama seperti "Semua surah" di Kamus: tombol di baris tab membuka daftar (surah Makkiyah biru, Madaniyah hijau), dan tombol "Bagian" muncul bila surahnya punya lebih dari satu bagian. Daftarnya tertutup secara bawaan agar soal mudah dibaca. Setelah menjawab ada tombol **Contoh ayat**, soal bisa digeser kiri/kanan, dan di akhir ada "Ulangi bagian ini" serta "Bagian/Surah berikutnya". Posisi terakhir diingat di browser.
 - **Suara**: tombol speaker memakai suara bawaan browser (Web Speech API, `ar-SA`). Belum ada file audio di versi 1.
 
@@ -53,6 +54,7 @@ Kolom penting sheet `Kosakata`: `No Surah`, `Indonesia`, `Transliterasi`, `Arab`
 ├── .github/workflows/build.yml     ← GitHub Action: build otomatis saat isi folder "Arabic word list" berubah
 ├── docs/                           ← hasil build (jangan diedit manual)
 │   ├── index.html                  ← kamus
+│   ├── hijaiyah.html               ← Huruf Hijaiyah (28 huruf, harakat, audio)
 │   ├── deck.html                   ← Belajar Surah (kuis per surah/bagian)
 │   ├── data.json                   ← kata
 │   ├── ayat.json                   ← ayat unik
@@ -61,6 +63,7 @@ Kolom penting sheet `Kosakata`: `No Surah`, `Indonesia`, `Transliterasi`, `Arab`
     ├── Kosakata_Arab.xlsx          ← sumber data (edit file ini)
     ├── build.py                    ← program: Excel → website
     ├── template.html               ← kerangka halaman kamus
+    ├── hijaiyah_template.html      ← kerangka + data halaman Huruf Hijaiyah (CSS-nya mengikuti template.html)
     ├── deck_template.html          ← kerangka halaman Belajar Surah (CSS-nya mengikuti template.html)
     ├── sumber/                     ← salinan asli sumber teks (Tanzil), jangan diubah
     │   ├── quran-simple.txt
@@ -118,5 +121,5 @@ Daftar kata, ayat, dan klausa di sini adalah **turunan** dari teks Tanzil (disar
 - Repo ini publik agar GitHub Pages gratis.
 - Proyek belajar pribadi. Untuk menyebarkan teks Al-Quran di Indonesia secara luas, perlu dicek ketentuan tashih Lajnah Pentashihan Mushaf Al-Qur'an (Kemenag), yang terpisah dari urusan hak cipta.
 - Jangan mengedit `docs/` secara manual; file itu ditimpa setiap build.
-- Untuk mengubah tampilan kamus, edit `template.html`; untuk Belajar Surah, edit `deck_template.html`. Tombol menu ("Kamus", "Belajar Surah") ada di kedua file, jadi ubah keduanya bila menu berubah. Ukuran bagian diatur lewat `var PART=20;` di `deck_template.html`.
+- Untuk mengubah tampilan kamus, edit `template.html`; untuk Belajar Surah, edit `deck_template.html`. Tombol menu ("Kamus", "Huruf Hijaiyah", "Belajar Surah") ada di ketiga file template, jadi ubah ketiganya bila menu berubah. Untuk Huruf Hijaiyah, edit `hijaiyah_template.html` (daftar `L` = huruf, nama, contoh kata). Ukuran bagian diatur lewat `var PART=20;` di `deck_template.html`.
 - Riwayat perubahan Excel tersimpan di git.

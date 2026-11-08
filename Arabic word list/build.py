@@ -7,7 +7,8 @@ Input : Arabic word list/Kosakata_Arab.xlsx
           - sheet "Klausa"   : ayat dipecah per klausa (di tanda waqaf), klausa unik
           - sheet "Surah"    : 114 surah (nama, tempat turun, jumlah)
           - sheet "Progress" : rekap hafalan di Excel (tidak dipakai website)
-Output: docs/index.html (kamus), docs/deck.html (Belajar Surah: kuis per surah/bagian),
+Output: docs/index.html (kamus), docs/hijaiyah.html (Huruf Hijaiyah, data huruf ada di template),
+        docs/deck.html (Belajar Surah: kuis per surah/bagian),
         docs/data.json (kata), docs/ayat.json, docs/klausa.json
 
 Kolom dicari berdasarkan nama header, bukan posisi. Kolom Status dan Catatan edit hanya untuk Excel.
@@ -26,6 +27,7 @@ BASE = Path(__file__).resolve().parent
 XLSX = BASE / "Kosakata_Arab.xlsx"
 TEMPLATE = BASE / "template.html"
 DECK_TEMPLATE = BASE / "deck_template.html"
+HIJ_TEMPLATE = BASE / "hijaiyah_template.html"
 OUT_DIR = BASE.parent / "docs"
 
 NOTICE = ("Teks Arab: Tanzil Project (https://tanzil.net), tidak diubah; terjemah ayat: Kementerian Agama RI melalui Tanzil; "
@@ -128,6 +130,11 @@ def main():
         sys.exit(f"deck_template.html harus memuat tepat satu baris '{marker}'")
     dt = dt.replace("<!--STYLE-->", style).replace(marker, "var SURAH=" + json.dumps(surah, ensure_ascii=False) + ";")
     (OUT_DIR / "deck.html").write_text(dt, encoding="utf-8")
+    # Huruf Hijaiyah (hijaiyah.html): halaman statis, CSS sama dengan index.html
+    ht = HIJ_TEMPLATE.read_text(encoding="utf-8")
+    if ht.count("<!--STYLE-->") != 1:
+        sys.exit("hijaiyah_template.html harus memuat tepat satu penanda <!--STYLE-->")
+    (OUT_DIR / "hijaiyah.html").write_text(ht.replace("<!--STYLE-->", style), encoding="utf-8")
     print(f"OK: {len(kata)} kata, {len(ayat)} ayat, {len(klausa)} klausa, 114 surah -> {OUT_DIR}")
 
 

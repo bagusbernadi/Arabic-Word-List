@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Huruf Hijaiyah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<!--STYLE-->
+<style>
+[hidden]{display:none!important}
+.lg{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:14px}
+.lt{background:var(--card);border:2px solid transparent;border-radius:12px;padding:4px 0 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;font:inherit;color:var(--ink)}
+.lt .h{font:700 30px/1.5 var(--hz)}
+.lt .n{font:700 12px var(--font);color:var(--mute)}
+.lt[aria-pressed="true"]{background:#E8F0FE;border-color:var(--blue)}
+.lt[aria-pressed="true"] .n{color:var(--blue)}
+.dh{display:flex;gap:16px;align-items:center}
+.big{font:700 84px/1.4 var(--hz);color:var(--ink);min-width:96px;text-align:center}
+.dn{flex:1;min-width:0}
+.dn .na{font:700 28px/1.5 var(--hz)}
+.dn .nl{font:700 18px var(--font);color:var(--pyc)}
+.dn .no{color:var(--mute);font-size:15px}
+.sec{margin-top:16px;padding-top:14px;border-top:2px dashed var(--line)}
+.sec h3{margin:0 0 8px;font:700 13px var(--font);color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fg.two{grid-template-columns:repeat(2,1fr)}
+.fb{background:#ffffff;border:2px solid transparent;border-radius:12px;padding:6px 4px 8px;cursor:pointer;font:inherit;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:0}
+.fb:hover{border-color:var(--blue)}
+.fb.on{background:var(--blue);color:#ffffff}
+.fb.on .fs,.fb.on .fl{color:#ffffff}
+.fb .fa{font:700 44px/1.6 var(--hz)}
+.fb .fs{font:700 18px var(--font);color:var(--pyc)}
+.fb .fl{font-size:13px;color:var(--mute)}
+.exw{display:flex;gap:12px;align-items:center;justify-content:space-between;background:#ffffff;border-radius:12px;padding:10px 16px}
+.exw .ea{font:700 40px/1.5 var(--hz)}
+.exw .et{flex:1;min-width:0}
+.exw .ep{font:700 17px var(--font);color:var(--pyc)}
+.exw .ei{font-size:16px}
+.nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.nav button{margin-top:0}
+button.alt2{background:#ffffff;color:var(--blue);border:0;border-radius:999px;padding:9px 22px;font:700 16px var(--font);cursor:pointer}
+.nav button:disabled{opacity:.4;cursor:default}
+@media (max-width:480px){.lg{grid-template-columns:repeat(4,1fr)}.big{font-size:68px;min-width:80px}.fb .fa{font-size:38px}}
+</style>
+</head>
+<body>
+<header class="hd"><h1>Huruf Hijaiyah</h1></header>
+<div class="wrap">
+<div class="tabs"><a class="tab" href="index.html">Kamus</a><a class="tab" aria-selected="true" aria-current="page" href="hijaiyah.html">Huruf Hijaiyah</a><a class="tab" href="deck.html">Belajar Surah</a></div>
+<div class="lg" id="lg" role="group" aria-label="Pilih huruf"></div>
+<div class="card" id="dt">Memuat…</div>
+</div>
+<div class="foot">Suara memakai suara Arab bawaan browser (Web Speech API, ar-SA); kejelasan bunyi huruf tunggal bergantung pada suara yang terpasang di perangkat. Transliterasi dibuat manual dan belum ditinjau pembaca Al-Quran yang kompeten. Contoh kata adalah kosakata umum, bukan dari Al-Quran.</div>
+<script>
+(function(){
+function $(i){return document.getElementById(i)}
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function toast(m){var t=$("toast");if(!t){t=document.createElement("div");t.id="toast";t.setAttribute("role","status");t.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#202124;color:#fff;padding:10px 16px;border-radius:10px;font-size:15px;z-index:99;max-width:90%;text-align:center";document.body.appendChild(t)}t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(function(){t.style.display="none"},2800)}
+
+/* harakat */
+var F="َ",K="ِ",D="ُ",FT="ً",KT="ٍ",DT="ٌ",SK="ْ",SY="ّ";
+/* huruf: [huruf, nama Arab, nama Latin, bunyi Latin, contoh Arab, contoh Latin, arti] */
+var L=[
+["ا","أَلِف","Alif","a","أَسَد","asad","singa"],
+["ب","بَاء","Ba","b","بَيْت","bait","rumah"],
+["ت","تَاء","Ta","t","تِين","tiin","buah tin"],
+["ث","ثَاء","Tsa","ts","ثَوْر","tsaur","sapi jantan"],
+["ج","جِيم","Jim","j","جَمَل","jamal","unta"],
+["ح","حَاء","Ha","h","حِصَان","hishaan","kuda"],
+["خ","خَاء","Kha","kh","خُبْز","khubz","roti"],
+["د","دَال","Dal","d","دَجَاج","dajaaj","ayam"],
+["ذ","ذَال","Dzal","dz","ذَهَب","dzahab","emas"],
+["ر","رَاء","Ra","r","رَجُل","rajul","laki-laki"],
+["ز","زَاي","Zai","z","زَهْرَة","zahrah","bunga"],
+["س","سِين","Sin","s","سَمَك","samak","ikan"],
+["ش","شِين","Syin","sy","شَمْس","syams","matahari"],
+["ص","صَاد","Shad","sh","صَقْر","shaqr","elang"],
+["ض","ضَاد","Dhad","dh","ضِفْدَع","dhifda’","katak"],
+["ط","طَاء","Tha","th","طَائِر","thaa’ir","burung"],
+["ظ","ظَاء","Zha","zh","ظَرْف","zharf","amplop"],
+["ع","عَيْن","‘Ain","‘","عِنَب","‘inab","anggur"],
+["غ","غَيْن","Ghain","gh","غُرَاب","ghuraab","burung gagak"],
+["ف","فَاء","Fa","f","فِيل","fiil","gajah"],
+["ق","قَاف","Qaf","q","قَمَر","qamar","bulan"],
+["ك","كَاف","Kaf","k","كِتَاب","kitaab","buku"],
+["ل","لَام","Lam","l","لَبَن","laban","susu"],
+["م","مِيم","Mim","m","مَاء","maa’","air"],
+["ن","نُون","Nun","n","نَار","naar","api"],
+["ه","هَاء","Ha","h","هِلَال","hilaal","bulan sabit"],
+["و","وَاو","Wau","w","وَرْدَة","wardah","mawar"],
+["ي","يَاء","Ya","y","يَد","yad","tangan"]
+];
+/* bentuk: [kelompok, label, tampilan, teks audio, bunyi Latin]; alif memakai hamzah (أ) */
+function forms(c,s){
+  var a=c==="ا",b=a?"أ":c,v=a?"":s,isA=a;
+  function lat(x){return a?x:s+x}
+  var P=function(h){return b+h};
+  var o=[
+    ["Harakat","Fathah",P(F),P(F),lat("a")],
+    ["Harakat","Kasrah",P(K),P(K),lat("i")],
+    ["Harakat","Dhammah",P(D),P(D),lat("u")],
+    ["Tanwin","Fathatain",P(FT),P(FT),lat("an")],
+    ["Tanwin","Kasratain",P(KT),P(KT),lat("in")],
+    ["Tanwin","Dhammatain",P(DT),P(DT),lat("un")]
+  ];
+  if(isA){
+    o.push(["Sukun & Syaddah","Sukun","أَأ"+SK,"أَأ"+SK,"a’"]);
+    o.push(["Sukun & Syaddah","Syaddah","أَأ"+SY+F,"أَأ"+SY+F,"a’a"]);
+    o.push(["Mad","Mad alif","آ","آ","aa"]);
+    o.push(["Mad","Mad ya","أ"+K+"ي","أ"+K+"ي","ii"]);
+    o.push(["Mad","Mad wau","أ"+D+"و","أ"+D+"و","uu"]);
+  }else{
+    o.push(["Sukun & Syaddah","Sukun","أَ"+b+SK,"أَ"+b+SK,"a"+s]);
+    o.push(["Sukun & Syaddah","Syaddah",b+SY+F,"أَ"+b+SY+F,s+s+"a"]);
+    o.push(["Mad","Mad alif",b+F+"ا",b+F+"ا",s+"aa"]);
+    o.push(["Mad","Mad ya",b+K+"ي",b+K+"ي",s+"ii"]);
+    o.push(["Mad","Mad wau",b+D+"و",b+D+"و",s+"uu"]);
+  }
+  return o;
+}
+
+/* suara (Web Speech API, ar-SA) - logika sama dengan Kamus / Durusul Lughoh */
+var SYN=window.speechSynthesis,SPV=null,TOKEN=0;
+function pickVoice(){
+  if(!SYN)return;
+  try{var vs=SYN.getVoices()||[],best=null;
+    for(var i=0;i<vs.length;i++){if(/^ar/i.test(vs[i].lang)){if(!best)best=vs[i];if(/^ar[-_]SA/i.test(vs[i].lang)){best=vs[i];break}}}
+    SPV=best}catch(x){SPV=null}
+}
+pickVoice();
+if(SYN){try{SYN.onvoiceschanged=function(){pickVoice()}}catch(x){}}
+function stopAll(){TOKEN++;try{SYN&&SYN.cancel()}catch(x){}Array.prototype.forEach.call(document.querySelectorAll(".on"),function(x){x.classList.remove("on")})}
+function speak(text,btn,done){
+  if(!SYN||typeof SpeechSynthesisUtterance==="undefined"){toast("Browser ini tidak mendukung suara");if(done)done();return}
+  Array.prototype.forEach.call(document.querySelectorAll(".fb.on,.sp.on"),function(x){x.classList.remove("on")});
+  try{
+    if(!SPV)pickVoice();
+    SYN.cancel();
+    var u=new SpeechSynthesisUtterance(text),started=false,ended=false;
+    u.lang=SPV?SPV.lang:"ar-SA";if(SPV)u.voice=SPV;
+    u.rate=.7;
+    var fin=function(){if(ended)return;ended=true;if(btn)btn.classList.remove("on");if(done)done()};
+    u.onstart=function(){started=true;if(btn)btn.classList.add("on")};
+    u.onend=function(){started=true;fin()};
+    u.onerror=function(e){var c=e&&(e.error==="canceled"||e.error==="interrupted");if(!started&&!c)toast("Suara Arab belum terpasang di perangkat ini");if(!c)fin();else{ended=true;if(btn)btn.classList.remove("on")}};
+    try{SYN.resume()}catch(x){}
+    SYN.speak(u);
+    setTimeout(function(){try{if(!started&&!SYN.speaking&&!SYN.pending){toast(SPV?"Suara tidak bisa diputar di browser ini":"Suara Arab belum terpasang di perangkat ini");fin()}}catch(x){}},2500);
+  }catch(x){toast("Suara tidak bisa diputar di browser ini");if(done)done()}
+}
+var SPK='<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+function spBtn(text,label){
+  var b=el("button","sp");b.type="button";b.setAttribute("aria-label",label||"Dengarkan");b.innerHTML=SPK;
+  b.onclick=function(){TOKEN++;speak(text,b)};
+  return b;
+}
+
+var cur=0;
+try{var sv=parseInt(localStorage.getItem("hij"),10);if(sv>=0&&sv<L.length)cur=sv}catch(x){}
+var lg=$("lg"),dt=$("dt");
+
+function buildGrid(){
+  L.forEach(function(r,i){
+    var b=el("button","lt");b.type="button";b.setAttribute("aria-pressed","false");b.setAttribute("aria-label","Huruf "+r[2]);
+    b.appendChild(el("span","h",r[0]));b.appendChild(el("span","n",r[2]));
+    b.onclick=function(){show(i,true)};
+    lg.appendChild(b);
+  });
+}
+function show(i,scroll){
+  stopAll();cur=i;
+  try{localStorage.setItem("hij",String(i))}catch(x){}
+  Array.prototype.forEach.call(lg.children,function(b,k){b.setAttribute("aria-pressed",k===i?"true":"false")});
+  var r=L[i],fs=forms(r[0],r[3]);
+  dt.textContent="";
+  var h=el("div","dh");
+  h.appendChild(el("div","big",r[0]));
+  var n=el("div","dn");
+  n.appendChild(el("div","na",r[1]));
+  n.appendChild(el("div","nl",r[2]));
+  n.appendChild(el("div","no",i+1+" dari 28"));
+  h.appendChild(n);
+  h.appendChild(spBtn(r[1],"Dengarkan nama huruf"));
+  dt.appendChild(h);
+
+  var groups=["Harakat","Tanwin","Sukun & Syaddah","Mad"],seq=[];
+  groups.forEach(function(g){
+    var sec=el("div","sec");sec.appendChild(el("h3",null,g));
+    var grid=el("div","fg"+(g==="Sukun & Syaddah"?" two":""));
+    fs.filter(function(f){return f[0]===g}).forEach(function(f){
+      var b=el("button","fb");b.type="button";b.setAttribute("aria-label",f[1]+" "+f[4]);
+      b.appendChild(el("span","fa",f[2]));b.appendChild(el("span","fs",f[4]));b.appendChild(el("span","fl",f[1]));
+      b.onclick=function(){TOKEN++;speak(f[3],b)};
+      seq.push({t:f[3],b:b});
+      grid.appendChild(b);
+    });
+    sec.appendChild(grid);dt.appendChild(sec);
+  });
+
+  var ex=el("div","sec");ex.appendChild(el("h3",null,"Contoh kata"));
+  var w=el("div","exw");
+  w.appendChild(el("div","ea",r[4]));
+  var t=el("div","et");t.appendChild(el("div","ep",r[5]));t.appendChild(el("div","ei",r[6]));
+  w.appendChild(t);w.appendChild(spBtn(r[4],"Dengarkan contoh kata"));
+  ex.appendChild(w);dt.appendChild(ex);
+
+  var nav=el("div","nav");
+  var all=el("button","next","▶ Putar semua");all.type="button";
+  all.onclick=function(){
+    if(all.dataset.run==="1"){stopAll();all.textContent="▶ Putar semua";all.dataset.run="0";return}
+    stopAll();var my=++TOKEN;all.dataset.run="1";all.textContent="■ Berhenti";
+    (function go(k){
+      if(my!==TOKEN||k>=seq.length){if(my===TOKEN){all.textContent="▶ Putar semua";all.dataset.run="0"}return}
+      speak(seq[k].t,seq[k].b,function(){if(my===TOKEN)setTimeout(function(){go(k+1)},350)});
+    })(0);
+  };
+  nav.appendChild(all);
+  var pv=el("button","alt2","← Sebelumnya");pv.type="button";pv.disabled=i===0;pv.onclick=function(){show(i-1,true)};
+  var nx=el("button","alt2","Berikutnya →");nx.type="button";nx.disabled=i===L.length-1;nx.onclick=function(){show(i+1,true)};
+  nav.appendChild(pv);nav.appendChild(nx);
+  dt.appendChild(nav);
+  if(scroll){try{lg.scrollIntoView({behavior:"smooth",block:"start"})}catch(x){}}
+}
+buildGrid();show(cur,false);
+})();
+</script>
+</body>
+</html>

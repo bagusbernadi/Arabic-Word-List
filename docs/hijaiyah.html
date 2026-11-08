@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Huruf Hijaiyah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Carlito:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--card:#F1F3F4;--line:#DADCE0;--ink:#202124;--mute:#5F6368;--blue:#4285F4;--red:#EA4335;--yel:#FBBC05;--grn:#34A853;--pri:#202124;--pri-ink:#ffffff;--link:#1A73E8;--pyc:#1A73E8;--ok:#188038;--ok-bg:#E6F4EA;--err:#C5221F;--err-bg:#FCE8E6;--mark:#FEEFC3;--hz:"Amiri","Noto Naskh Arabic","Traditional Arabic","Scheherazade New",serif;--font:Calibri,Carlito,"Segoe UI",Arial,sans-serif;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{background:#ffffff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.5 var(--font);-webkit-font-smoothing:antialiased}
+.hd{max-width:860px;margin:0 auto;padding:28px 20px 16px}
+h1{margin:0;font:700 40px/1.15 var(--font);color:var(--ink)}
+h1 .c0,h1 .c1,h1 .c2,h1 .c3{color:var(--ink)}
+h1::after{content:"";display:block;width:72px;height:6px;border-radius:3px;background:linear-gradient(90deg,#4285F4 25%,#EA4335 0 50%,#FBBC05 0 75%,#34A853 0);margin-top:12px}
+.wrap{max-width:860px;margin:0 auto;padding:8px 20px 48px}
+.tabs{display:flex;flex-wrap:wrap;gap:6px}
+#tc{border:2px solid var(--line);background:#ffffff;padding:4px 16px}
+#tc.on{border-color:var(--blue);color:var(--blue)}
+.tab{font:700 16px var(--font);background:var(--card);color:var(--mute);border:0;border-radius:999px;padding:6px 20px;cursor:pointer}
+.tab:hover{color:var(--ink)}
+.tab[aria-selected="true"]{background:var(--blue);color:#ffffff}
+button:focus-visible,input:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+.bar{position:sticky;top:0;background:#ffffff;padding:14px 0 8px;z-index:2}
+#q{width:100%;font:inherit;padding:11px 16px;border:2px solid var(--line);border-radius:12px;background:#ffffff;color:var(--ink)}
+#q:focus{border-color:var(--blue);outline:none}
+#q::placeholder{color:#80868B}
+#info{color:var(--mute);font-size:15px;margin:8px 2px 0}
+.card{background:var(--card);border-radius:16px;border-left:8px solid var(--blue);padding:16px 20px;margin-top:12px}
+.card.cb{border-left-color:var(--blue)}.card.cr{border-left-color:var(--red)}.card.cy{border-left-color:var(--yel)}.card.cg{border-left-color:var(--grn)}
+.cats{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.cats[hidden]{display:none}
+.ct{font:700 15px var(--font);color:#ffffff;border:3px solid transparent;border-radius:999px;padding:6px 14px;cursor:pointer;background:var(--pri)}
+.ct.b{background:var(--blue)}.ct.r{background:var(--red)}.ct.y{background:var(--yel);color:var(--ink)}.ct.g{background:var(--grn)}
+.ct small{font-weight:400;opacity:.9;margin-left:4px}
+.ct[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px #ffffff inset}
+.row{display:flex;gap:12px;align-items:flex-start;justify-content:space-between;background:#ffffff;border-radius:10px;padding:8px 14px}
+.row+.row{margin-top:6px}
+.id{font-size:18px;font-weight:400;color:var(--ink)}
+.hz{font:700 24px/1.3 var(--hz);color:var(--ink)}
+.py{color:var(--pyc);font-weight:700;font-size:16px}
+.meta{color:var(--mute);font-size:15px;margin-top:8px}
+.lb{display:inline-block;font:700 14px/1 var(--font);border-radius:999px;padding:5px 12px;margin-bottom:10px;color:#ffffff}
+.lb.g{background:var(--grn)}
+.lb.b{background:var(--blue)}
+.lb.y{background:var(--yel);color:var(--ink)}
+.lb.r{background:var(--red)}
+button.cp{flex:none;border:0;background:var(--card);color:var(--ink);border-radius:999px;padding:5px 14px;font:700 14px var(--font);cursor:pointer;min-width:76px}
+button.cp:hover{background:var(--line)}
+button.cp.ok{background:var(--ok-bg);color:var(--ok)}
+mark{background:var(--mark);color:inherit;border-radius:3px;padding:0 1px}
+.empty{color:var(--mute);text-align:center;padding:40px 12px;font-size:16px}
+.score{display:flex;justify-content:space-between;align-items:center;color:var(--mute);font-size:15px;margin-top:12px}
+.pg{height:6px;background:var(--card);border-radius:999px;margin-top:10px;overflow:hidden}
+#pgf{height:100%;width:0;background:linear-gradient(90deg,#4285F4,#34A853);border-radius:999px;transition:width .3s}
+.ask{color:var(--mute);font-size:15px;font-weight:700}
+.qt{margin:6px 0 0;word-break:break-word}
+.qt.hz{font:700 34px/1.3 var(--hz);color:var(--ink)}
+.qt.py{font:700 22px/1.4 var(--font);color:var(--pyc)}
+.qt.id{font:400 22px/1.4 var(--font);color:var(--ink)}
+.opts{display:grid;gap:8px;margin-top:14px}
+.opt{text-align:left;background:#ffffff;color:var(--ink);border:2px solid transparent;border-radius:10px;padding:10px 14px;font:inherit;cursor:pointer;display:flex;gap:12px;align-items:center}
+.opt:hover:not(:disabled){border-color:var(--blue)}
+.opt .k{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 13px var(--font);background:var(--card);color:var(--mute)}
+.opt .t{word-break:break-word}
+.opt.hz .t{font:700 22px/1.35 var(--hz);color:var(--ink)}
+.opt.py .t{color:var(--pyc);font-weight:700}
+.opt.ok{background:var(--ok-bg);border-color:var(--grn)}
+.opt.ok .t{color:var(--ok)}
+.opt.no{background:var(--err-bg);border-color:var(--red)}
+.opt.no .t{color:var(--err)}
+.opt:disabled{cursor:default}
+.res{margin-top:14px;padding-top:14px;border-top:2px solid var(--line)}
+.res .v{font-weight:700;margin-bottom:6px}
+button.next{margin-top:14px;background:var(--blue);color:#ffffff;border:0;border-radius:999px;padding:9px 22px;font:700 16px var(--font);cursor:pointer}
+button.next:hover{background:#1A73E8}
+button.lnk{background:none;border:0;color:var(--link);cursor:pointer;font:inherit;font-size:15px;font-weight:700}
+@media (max-width:480px){.hd,.wrap{padding-left:16px;padding-right:16px}h1{font-size:32px}.hz{font-size:22px}.qt.hz{font-size:30px}}
+.exs{margin-top:12px;padding-top:12px;border-top:2px dashed var(--line)}
+.exh{font:700 13px var(--font);color:var(--mute);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+.ex{padding:8px 14px;margin-top:6px;background:#ffffff;border-radius:10px}
+.ex:last-child{padding-bottom:8px}
+.ex-id{color:var(--ink);font-size:16px}
+.ex-py{color:var(--pyc);font-size:15px;font-weight:700}
+.ex-hz{color:var(--ink);font:700 18px/1.45 var(--hz)}
+.id.tog{cursor:pointer;display:inline-block}
+.id.tog::after{content:" \25BE";color:#80868B;font-size:13px}
+.id.tog.open::after{content:" \25B4"}
+.id.tog:hover{color:var(--link)}
+.exs[hidden]{display:none}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:15px;color:var(--mute);margin-top:14px}
+.legend b{font-weight:700}
+.modes{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.mode{text-align:left;background:var(--card);color:var(--ink);border:2px solid transparent;border-radius:12px;padding:10px 12px;font:inherit;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.mode b{font:700 15px var(--font);color:var(--mute)}
+.mode span{font-size:14px;line-height:1.3}
+.mode[aria-pressed="true"]{background:#E8F0FE;border-color:var(--blue)}
+.mode[aria-pressed="true"] b{color:var(--blue)}
+.opt.ap .t{display:flex;flex-direction:column}
+.opt .oh{font:700 22px/1.35 var(--hz);color:var(--ink)}
+.opt .oy{color:var(--pyc);font-weight:700;font-size:15px}
+.opt.ok .oh,.opt.ok .oy{color:var(--ok)}.opt.no .oh,.opt.no .oy{color:var(--err)}
+.opt.id .t{font-size:17px}
+.ow{display:flex;gap:8px;align-items:stretch}
+.ow .opt{flex:1;min-width:0}
+button.sp.lg{width:46px;height:auto;border-radius:10px;background:#ffffff}
+button.sp.lg.on{background:var(--blue)}
+.opt .oi{margin-left:auto;text-align:right;font-size:14px;line-height:1.3;color:var(--mute);max-width:42%;word-break:break-word}
+.opt.ok .oi{color:var(--ok)}.opt.no .oi{color:var(--err)}
+.wd{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.w{background:#ffffff;border-radius:10px;padding:6px 12px;text-align:center}
+.wh{font:700 28px/1.3 var(--hz);color:var(--ink)}
+.wp{color:var(--pyc);font-weight:700;font-size:15px}
+@media (max-width:560px){.modes{grid-template-columns:1fr}.mode{flex-direction:row;align-items:center;gap:10px}}
+button.sp{flex:none;width:38px;height:34px;border:0;border-radius:999px;background:var(--card);color:var(--blue);cursor:pointer;display:inline-grid;place-items:center;padding:0}
+button.sp.on{background:var(--blue);color:#ffffff}
+.bt{display:flex;gap:6px;align-items:center;flex:none}
+.exr{display:flex;gap:8px;align-items:center;justify-content:space-between}
+.rh{display:flex;gap:10px;align-items:center;justify-content:space-between}
+a.tab{text-decoration:none;display:inline-block}
+.pm{position:fixed;inset:0;z-index:50;background:rgba(32,33,36,.25);-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:16px}
+.pm[hidden]{display:none}
+.pmc{width:100%;max-width:560px;max-height:85vh;display:flex;flex-direction:column;background:rgba(255,255,255,.68);-webkit-backdrop-filter:blur(16px) saturate(1.4);backdrop-filter:blur(16px) saturate(1.4);border:1px solid rgba(255,255,255,.7);border-radius:24px;box-shadow:0 10px 40px rgba(32,33,36,.22);overflow:hidden}
+.pmh{display:flex;justify-content:space-between;align-items:center;padding:14px 18px 10px}
+.pmh h2{font:700 20px var(--font);margin:0;color:var(--ink)}
+.pmh h2:after{content:"";display:block;width:64px;height:4px;margin-top:6px;border-radius:2px;background:linear-gradient(90deg,var(--blue) 25%,var(--red) 25% 50%,var(--yel) 50% 75%,var(--grn) 75%)}
+#pmx{border:0;background:rgba(241,243,244,.8);color:var(--mute);width:36px;height:36px;border-radius:999px;font-size:16px;cursor:pointer}
+.pmb{overflow:auto;padding:0 18px 18px;-webkit-overflow-scrolling:touch}
+.gs{--c:var(--blue)}.gs.r{--c:var(--red)}.gs.y{--c:var(--yel)}.gs.g{--c:var(--grn)}
+.gs h2{display:inline-block;background:var(--c);color:#fff;border-radius:999px;padding:5px 16px;font:700 15px var(--font);margin:0 0 6px}
+.gs.y h2{color:var(--ink)}
+.gi{border-left:6px solid var(--c);background:rgba(241,243,244,.72)!important;border-radius:14px!important}
+.pm button.sp{background:rgba(255,255,255,.85)}.pm button.sp.on{background:var(--blue)}
+#t3{margin-left:auto;padding:6px 12px;display:inline-grid;place-items:center}
+.gs{margin-top:16px}.gs .gd{color:var(--mute);font-size:15px;margin:0 0 8px}
+.gi{display:flex;gap:10px;align-items:center;background:var(--card);border-radius:12px;padding:8px 12px;margin-top:6px}
+.gi .gp{font-weight:700;color:var(--pyc);min-width:76px;font-size:17px}.gi .gh{font:700 24px/1.2 var(--hz);min-width:auto}
+.gi.gn .gp{min-width:76px;max-width:110px;overflow-wrap:anywhere}.gi.gn{padding-top:10px;padding-bottom:10px}
+.gi .gt{flex:1;font-size:15px;line-height:1.35;color:var(--ink)}
+@media (max-width:400px){.tab{font-size:14px;padding:6px 11px}.tabs{gap:4px}#tc{padding:4px 8px!important;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+.ar{font:400 30px/1.9 var(--hz);direction:rtl;text-align:right;color:var(--ink);unicode-bidi:isolate}
+.ar.sm{font-size:26px}
+.tl{color:var(--pyc);font-weight:700;font-size:16px;margin-top:2px}
+.row.ra{align-items:center}
+.row.ra>div:first-child{flex:1;min-width:0}
+.subs{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+.sub{font:700 14px var(--font);background:var(--card);color:var(--mute);border:2px solid transparent;border-radius:999px;padding:5px 14px;cursor:pointer}
+.sub small{font-weight:400;margin-left:4px}
+.sub[aria-pressed="true"]{background:#E8F0FE;color:var(--blue);border-color:var(--blue)}
+.cek{color:#B06000;font-weight:700}
+.ref{display:inline-block;font:700 13px var(--font);background:#ffffff;border-radius:999px;padding:3px 10px;color:var(--mute);margin-left:6px}
+.sbtn{font:700 14px var(--font);color:#ffffff;border:3px solid transparent;border-radius:999px;padding:5px 12px;cursor:pointer;background:var(--blue)}
+.sbtn.g{background:var(--grn)}
+.sbtn[aria-pressed="true"]{border-color:var(--ink);box-shadow:0 0 0 2px #ffffff inset}
+.sbtn small{font-weight:400;opacity:.9;margin-left:4px}
+.qt.ar{font-size:40px;line-height:1.7;margin:6px 0 0}
+.opt.ap .t{display:flex;flex-direction:column}
+.opt .oa{font:400 28px/1.7 var(--hz);direction:rtl;text-align:right;color:var(--ink)}
+.opt.ar-o .t{width:100%}
+.opt.ok .oa{color:var(--ok)}.opt.no .oa{color:var(--err)}
+.foot{max-width:860px;margin:0 auto;padding:8px 20px 40px;color:var(--mute);font-size:13px;line-height:1.5}
+.foot a{color:var(--link)}
+.gs p{font-size:15px;margin:6px 0}
+.gs ul{margin:6px 0 6px 18px;padding:0;font-size:15px}
+.gs code{background:rgba(241,243,244,.9);border-radius:6px;padding:1px 6px}
+</style>
+<style>
+[hidden]{display:none!important}
+.lg{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:14px}
+.lt{background:var(--card);border:2px solid transparent;border-radius:12px;padding:4px 0 6px;cursor:pointer;display:flex;flex-direction:column;align-items:center;font:inherit;color:var(--ink)}
+.lt .h{font:700 30px/1.5 var(--hz)}
+.lt .n{font:700 12px var(--font);color:var(--mute)}
+.lt[aria-pressed="true"]{background:#E8F0FE;border-color:var(--blue)}
+.lt[aria-pressed="true"] .n{color:var(--blue)}
+.dh{display:flex;gap:16px;align-items:center}
+.big{font:700 84px/1.4 var(--hz);color:var(--ink);min-width:96px;text-align:center}
+.dn{flex:1;min-width:0}
+.dn .na{font:700 28px/1.5 var(--hz)}
+.dn .nl{font:700 18px var(--font);color:var(--pyc)}
+.dn .no{color:var(--mute);font-size:15px}
+.sec{margin-top:16px;padding-top:14px;border-top:2px dashed var(--line)}
+.sec h3{margin:0 0 8px;font:700 13px var(--font);color:var(--mute);text-transform:uppercase;letter-spacing:.05em}
+.fg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.fg.two{grid-template-columns:repeat(2,1fr)}
+.fb{background:#ffffff;border:2px solid transparent;border-radius:12px;padding:6px 4px 8px;cursor:pointer;font:inherit;color:var(--ink);display:flex;flex-direction:column;align-items:center;gap:0}
+.fb:hover{border-color:var(--blue)}
+.fb.on{background:var(--blue);color:#ffffff}
+.fb.on .fs,.fb.on .fl{color:#ffffff}
+.fb .fa{font:700 44px/1.6 var(--hz)}
+.fb .fs{font:700 18px var(--font);color:var(--pyc)}
+.fb .fl{font-size:13px;color:var(--mute)}
+.exw{display:flex;gap:12px;align-items:center;justify-content:space-between;background:#ffffff;border-radius:12px;padding:10px 16px}
+.exw .ea{font:700 40px/1.5 var(--hz)}
+.exw .et{flex:1;min-width:0}
+.exw .ep{font:700 17px var(--font);color:var(--pyc)}
+.exw .ei{font-size:16px}
+.nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.nav button{margin-top:0}
+button.alt2{background:#ffffff;color:var(--blue);border:0;border-radius:999px;padding:9px 22px;font:700 16px var(--font);cursor:pointer}
+.nav button:disabled{opacity:.4;cursor:default}
+@media (max-width:480px){.lg{grid-template-columns:repeat(4,1fr)}.big{font-size:68px;min-width:80px}.fb .fa{font-size:38px}}
+</style>
+</head>
+<body>
+<header class="hd"><h1>Huruf Hijaiyah</h1></header>
+<div class="wrap">
+<div class="tabs"><a class="tab" href="index.html">Kamus</a><a class="tab" aria-selected="true" aria-current="page" href="hijaiyah.html">Huruf Hijaiyah</a><a class="tab" href="deck.html">Belajar Surah</a></div>
+<div class="lg" id="lg" role="group" aria-label="Pilih huruf"></div>
+<div class="card" id="dt">Memuat…</div>
+</div>
+<div class="foot">Suara memakai suara Arab bawaan browser (Web Speech API, ar-SA); kejelasan bunyi huruf tunggal bergantung pada suara yang terpasang di perangkat. Transliterasi dibuat manual dan belum ditinjau pembaca Al-Quran yang kompeten. Contoh kata adalah kosakata umum, bukan dari Al-Quran.</div>
+<script>
+(function(){
+function $(i){return document.getElementById(i)}
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!=null)e.textContent=text;return e}
+function toast(m){var t=$("toast");if(!t){t=document.createElement("div");t.id="toast";t.setAttribute("role","status");t.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#202124;color:#fff;padding:10px 16px;border-radius:10px;font-size:15px;z-index:99;max-width:90%;text-align:center";document.body.appendChild(t)}t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(function(){t.style.display="none"},2800)}
+
+/* harakat */
+var F="َ",K="ِ",D="ُ",FT="ً",KT="ٍ",DT="ٌ",SK="ْ",SY="ّ";
+/* huruf: [huruf, nama Arab, nama Latin, bunyi Latin, contoh Arab, contoh Latin, arti] */
+var L=[
+["ا","أَلِف","Alif","a","أَسَد","asad","singa"],
+["ب","بَاء","Ba","b","بَيْت","bait","rumah"],
+["ت","تَاء","Ta","t","تِين","tiin","buah tin"],
+["ث","ثَاء","Tsa","ts","ثَوْر","tsaur","sapi jantan"],
+["ج","جِيم","Jim","j","جَمَل","jamal","unta"],
+["ح","حَاء","Ha","h","حِصَان","hishaan","kuda"],
+["خ","خَاء","Kha","kh","خُبْز","khubz","roti"],
+["د","دَال","Dal","d","دَجَاج","dajaaj","ayam"],
+["ذ","ذَال","Dzal","dz","ذَهَب","dzahab","emas"],
+["ر","رَاء","Ra","r","رَجُل","rajul","laki-laki"],
+["ز","زَاي","Zai","z","زَهْرَة","zahrah","bunga"],
+["س","سِين","Sin","s","سَمَك","samak","ikan"],
+["ش","شِين","Syin","sy","شَمْس","syams","matahari"],
+["ص","صَاد","Shad","sh","صَقْر","shaqr","elang"],
+["ض","ضَاد","Dhad","dh","ضِفْدَع","dhifda’","katak"],
+["ط","طَاء","Tha","th","طَائِر","thaa’ir","burung"],
+["ظ","ظَاء","Zha","zh","ظَرْف","zharf","amplop"],
+["ع","عَيْن","‘Ain","‘","عِنَب","‘inab","anggur"],
+["غ","غَيْن","Ghain","gh","غُرَاب","ghuraab","burung gagak"],
+["ف","فَاء","Fa","f","فِيل","fiil","gajah"],
+["ق","قَاف","Qaf","q","قَمَر","qamar","bulan"],
+["ك","كَاف","Kaf","k","كِتَاب","kitaab","buku"],
+["ل","لَام","Lam","l","لَبَن","laban","susu"],
+["م","مِيم","Mim","m","مَاء","maa’","air"],
+["ن","نُون","Nun","n","نَار","naar","api"],
+["ه","هَاء","Ha","h","هِلَال","hilaal","bulan sabit"],
+["و","وَاو","Wau","w","وَرْدَة","wardah","mawar"],
+["ي","يَاء","Ya","y","يَد","yad","tangan"]
+];
+/* bentuk: [kelompok, label, tampilan, teks audio, bunyi Latin]; alif memakai hamzah (أ) */
+function forms(c,s){
+  var a=c==="ا",b=a?"أ":c,v=a?"":s,isA=a;
+  function lat(x){return a?x:s+x}
+  var P=function(h){return b+h};
+  var o=[
+    ["Harakat","Fathah",P(F),P(F),lat("a")],
+    ["Harakat","Kasrah",P(K),P(K),lat("i")],
+    ["Harakat","Dhammah",P(D),P(D),lat("u")],
+    ["Tanwin","Fathatain",P(FT),P(FT),lat("an")],
+    ["Tanwin","Kasratain",P(KT),P(KT),lat("in")],
+    ["Tanwin","Dhammatain",P(DT),P(DT),lat("un")]
+  ];
+  if(isA){
+    o.push(["Sukun & Syaddah","Sukun","أَأ"+SK,"أَأ"+SK,"a’"]);
+    o.push(["Sukun & Syaddah","Syaddah","أَأ"+SY+F,"أَأ"+SY+F,"a’a"]);
+    o.push(["Mad","Mad alif","آ","آ","aa"]);
+    o.push(["Mad","Mad ya","أ"+K+"ي","أ"+K+"ي","ii"]);
+    o.push(["Mad","Mad wau","أ"+D+"و","أ"+D+"و","uu"]);
+  }else{
+    o.push(["Sukun & Syaddah","Sukun","أَ"+b+SK,"أَ"+b+SK,"a"+s]);
+    o.push(["Sukun & Syaddah","Syaddah",b+SY+F,"أَ"+b+SY+F,s+s+"a"]);
+    o.push(["Mad","Mad alif",b+F+"ا",b+F+"ا",s+"aa"]);
+    o.push(["Mad","Mad ya",b+K+"ي",b+K+"ي",s+"ii"]);
+    o.push(["Mad","Mad wau",b+D+"و",b+D+"و",s+"uu"]);
+  }
+  return o;
+}
+
+/* suara (Web Speech API, ar-SA) - logika sama dengan Kamus / Durusul Lughoh */
+var SYN=window.speechSynthesis,SPV=null,TOKEN=0;
+function pickVoice(){
+  if(!SYN)return;
+  try{var vs=SYN.getVoices()||[],best=null;
+    for(var i=0;i<vs.length;i++){if(/^ar/i.test(vs[i].lang)){if(!best)best=vs[i];if(/^ar[-_]SA/i.test(vs[i].lang)){best=vs[i];break}}}
+    SPV=best}catch(x){SPV=null}
+}
+pickVoice();
+if(SYN){try{SYN.onvoiceschanged=function(){pickVoice()}}catch(x){}}
+function stopAll(){TOKEN++;try{SYN&&SYN.cancel()}catch(x){}Array.prototype.forEach.call(document.querySelectorAll(".on"),function(x){x.classList.remove("on")})}
+function speak(text,btn,done){
+  if(!SYN||typeof SpeechSynthesisUtterance==="undefined"){toast("Browser ini tidak mendukung suara");if(done)done();return}
+  Array.prototype.forEach.call(document.querySelectorAll(".fb.on,.sp.on"),function(x){x.classList.remove("on")});
+  try{
+    if(!SPV)pickVoice();
+    SYN.cancel();
+    var u=new SpeechSynthesisUtterance(text),started=false,ended=false;
+    u.lang=SPV?SPV.lang:"ar-SA";if(SPV)u.voice=SPV;
+    u.rate=.7;
+    var fin=function(){if(ended)return;ended=true;if(btn)btn.classList.remove("on");if(done)done()};
+    u.onstart=function(){started=true;if(btn)btn.classList.add("on")};
+    u.onend=function(){started=true;fin()};
+    u.onerror=function(e){var c=e&&(e.error==="canceled"||e.error==="interrupted");if(!started&&!c)toast("Suara Arab belum terpasang di perangkat ini");if(!c)fin();else{ended=true;if(btn)btn.classList.remove("on")}};
+    try{SYN.resume()}catch(x){}
+    SYN.speak(u);
+    setTimeout(function(){try{if(!started&&!SYN.speaking&&!SYN.pending){toast(SPV?"Suara tidak bisa diputar di browser ini":"Suara Arab belum terpasang di perangkat ini");fin()}}catch(x){}},2500);
+  }catch(x){toast("Suara tidak bisa diputar di browser ini");if(done)done()}
+}
+var SPK='<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4zM14 3.2v2.1a7 7 0 0 1 0 13.4v2.1a9 9 0 0 0 0-17.6z"/></svg>';
+function spBtn(text,label){
+  var b=el("button","sp");b.type="button";b.setAttribute("aria-label",label||"Dengarkan");b.innerHTML=SPK;
+  b.onclick=function(){TOKEN++;speak(text,b)};
+  return b;
+}
+
+var cur=0;
+try{var sv=parseInt(localStorage.getItem("hij"),10);if(sv>=0&&sv<L.length)cur=sv}catch(x){}
+var lg=$("lg"),dt=$("dt");
+
+function buildGrid(){
+  L.forEach(function(r,i){
+    var b=el("button","lt");b.type="button";b.setAttribute("aria-pressed","false");b.setAttribute("aria-label","Huruf "+r[2]);
+    b.appendChild(el("span","h",r[0]));b.appendChild(el("span","n",r[2]));
+    b.onclick=function(){show(i,true)};
+    lg.appendChild(b);
+  });
+}
+function show(i,scroll){
+  stopAll();cur=i;
+  try{localStorage.setItem("hij",String(i))}catch(x){}
+  Array.prototype.forEach.call(lg.children,function(b,k){b.setAttribute("aria-pressed",k===i?"true":"false")});
+  var r=L[i],fs=forms(r[0],r[3]);
+  dt.textContent="";
+  var h=el("div","dh");
+  h.appendChild(el("div","big",r[0]));
+  var n=el("div","dn");
+  n.appendChild(el("div","na",r[1]));
+  n.appendChild(el("div","nl",r[2]));
+  n.appendChild(el("div","no",i+1+" dari 28"));
+  h.appendChild(n);
+  h.appendChild(spBtn(r[1],"Dengarkan nama huruf"));
+  dt.appendChild(h);
+
+  var groups=["Harakat","Tanwin","Sukun & Syaddah","Mad"],seq=[];
+  groups.forEach(function(g){
+    var sec=el("div","sec");sec.appendChild(el("h3",null,g));
+    var grid=el("div","fg"+(g==="Sukun & Syaddah"?" two":""));
+    fs.filter(function(f){return f[0]===g}).forEach(function(f){
+      var b=el("button","fb");b.type="button";b.setAttribute("aria-label",f[1]+" "+f[4]);
+      b.appendChild(el("span","fa",f[2]));b.appendChild(el("span","fs",f[4]));b.appendChild(el("span","fl",f[1]));
+      b.onclick=function(){TOKEN++;speak(f[3],b)};
+      seq.push({t:f[3],b:b});
+      grid.appendChild(b);
+    });
+    sec.appendChild(grid);dt.appendChild(sec);
+  });
+
+  var ex=el("div","sec");ex.appendChild(el("h3",null,"Contoh kata"));
+  var w=el("div","exw");
+  w.appendChild(el("div","ea",r[4]));
+  var t=el("div","et");t.appendChild(el("div","ep",r[5]));t.appendChild(el("div","ei",r[6]));
+  w.appendChild(t);w.appendChild(spBtn(r[4],"Dengarkan contoh kata"));
+  ex.appendChild(w);dt.appendChild(ex);
+
+  var nav=el("div","nav");
+  var all=el("button","next","▶ Putar semua");all.type="button";
+  all.onclick=function(){
+    if(all.dataset.run==="1"){stopAll();all.textContent="▶ Putar semua";all.dataset.run="0";return}
+    stopAll();var my=++TOKEN;all.dataset.run="1";all.textContent="■ Berhenti";
+    (function go(k){
+      if(my!==TOKEN||k>=seq.length){if(my===TOKEN){all.textContent="▶ Putar semua";all.dataset.run="0"}return}
+      speak(seq[k].t,seq[k].b,function(){if(my===TOKEN)setTimeout(function(){go(k+1)},350)});
+    })(0);
+  };
+  nav.appendChild(all);
+  var pv=el("button","alt2","← Sebelumnya");pv.type="button";pv.disabled=i===0;pv.onclick=function(){show(i-1,true)};
+  var nx=el("button","alt2","Berikutnya →");nx.type="button";nx.disabled=i===L.length-1;nx.onclick=function(){show(i+1,true)};
+  nav.appendChild(pv);nav.appendChild(nx);
+  dt.appendChild(nav);
+  if(scroll){try{lg.scrollIntoView({behavior:"smooth",block:"start"})}catch(x){}}
+}
+buildGrid();show(cur,false);
+})();
+</script>
+</body>
+</html>
